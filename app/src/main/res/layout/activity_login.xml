@@ -75,7 +75,7 @@
         android:id="@+id/btnAceptar"
         android:layout_width="167dp"
         android:layout_height="60dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="43dp"
         android:text="Aceptar"
         app:layout_constraintEnd_toEndOf="@+id/etDireccionTienda"
         app:layout_constraintHorizontal_bias="0.518"
