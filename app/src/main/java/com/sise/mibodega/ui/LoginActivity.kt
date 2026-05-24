@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
 import android.content.Intent
+
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var btnAceptar: Button
@@ -42,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
             val inputApellidos = etApellidos.text.toString().trim()
             val inputNombreTienda = etNombreTienda.text.toString().trim()
             val inputDireccionTienda = etDireccionTienda.text.toString().trim()
-
 
 
             //Validacion
