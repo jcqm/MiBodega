@@ -21,10 +21,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         //Crear tabla tienda
         val crearTienda = ("CREATE TABLE " + Tabla_tienda + " ("
-                + Tabla_TiendaID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Tabla_UsuarioID +"INTEGER NOT NULL"+
-                Tabla_Nombre_Tienda + " TEXT NOT NULL," +
-                Tabla_Direccion_Tienda + " TEXT NOT NULL" + ")")
+                + Tabla_TiendaID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Tabla_UsuarioID + " INTEGER NOT NULL, "
+                + Tabla_Nombre_Tienda + " TEXT NOT NULL, "
+                + Tabla_Direccion_Tienda + " TEXT NOT NULL" + ")")
         db.execSQL(crearTienda)
 
     }
@@ -38,18 +38,36 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     // Insertar Usuario, en la vista LoginActivity
-    fun insertar_usuario(nombre: String, apellidos: String, nombre_tienda: String, direccion_tienda: String){
-        val valores = ContentValues().apply {
-            put(Tabla_Usuario_Nombres,nombre)
-            put(Tabla_Usuarios_Apellidos,apellidos)
-            put(Tabla_Nombre_Tienda,nombre_tienda)
-            put(Tabla_Direccion_Tienda,direccion_tienda)
+    fun insertar_usuario(
+        nombre: String,
+        apellidos: String,
+        nombre_tienda: String,
+        direccion_tienda: String
+    ) {
+        writableDatabase.use { db ->
+
+            // insertar usuario
+            val valoresUsuario = ContentValues().apply {
+                put(Tabla_Usuario_Nombres, nombre)
+                put(Tabla_Usuarios_Apellidos, apellidos)
+            }
+
+            val usuarioId = db.insert(Tabla_usuario, null, valoresUsuario)
+
+            // insertar tienda
+            val valoresTienda = ContentValues().apply {
+                put(Tabla_UsuarioID, usuarioId)
+                put(Tabla_Nombre_Tienda, nombre_tienda)
+                put(Tabla_Direccion_Tienda, direccion_tienda)
+            }
+
+            db.insert(Tabla_tienda, null, valoresTienda)
         }
     }
 
     // mostrar nombre en el dashboar
-    fun mostrarNombre(): Cursor{
-        return readableDatabase.rawQuery("SELECT $Tabla_Usuario_Nombres FROM $Tabla_usuario",null)
+    fun mostrarNombre(): Cursor {
+        return readableDatabase.rawQuery("SELECT $Tabla_Usuario_Nombres FROM $Tabla_usuario", null)
     }
 
     companion object {

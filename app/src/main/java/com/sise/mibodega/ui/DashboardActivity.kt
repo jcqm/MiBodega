@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.sise.mibodega.R
+import com.sise.mibodega.data.DBHelper
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var tvNombre: TextView
@@ -21,8 +22,24 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
 
         // Inicializar los componentes de la ui
-
         tvNombre = findViewById(R.id.tvNombre)
+
+        val db = DBHelper(this, null)
+        tvNombre.text=""
+
+        val cursor = db.mostrarNombre()
+
+        cursor.use {
+            if (cursor.moveToFirst()) {
+
+                val nombre = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DBHelper.Tabla_Usuario_Nombres)
+                )
+
+                tvNombre.text = nombre
+            }
+        }
+
 
 
 
