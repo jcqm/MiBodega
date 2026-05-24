@@ -88,6 +88,5 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val Tabla_Nombre_Tienda = "Nombre_Tienda"
         const val Tabla_Direccion_Tienda = "DireccionTienda"
 
-
     }
 }
