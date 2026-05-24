@@ -36,7 +36,7 @@ class DashboardActivity : AppCompatActivity() {
                     cursor.getColumnIndexOrThrow(DBHelper.Tabla_Usuario_Nombres)
                 )
 
-                tvNombre.text = nombre
+                tvNombre.text = "Buenos dias, "+ nombre +" 👋"
             }
         }
 

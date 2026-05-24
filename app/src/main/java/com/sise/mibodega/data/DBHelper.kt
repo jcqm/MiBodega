@@ -52,6 +52,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 put(Tabla_Usuarios_Apellidos, apellidos)
             }
 
+            // aca jale la info de usuario id, para poder usarla en insertar tienda
             val usuarioId = db.insert(Tabla_usuario, null, valoresUsuario)
 
             // insertar tienda
