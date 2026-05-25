@@ -31,7 +31,6 @@ class DashboardActivity : AppCompatActivity() {
         remplazarFragmento(Home())
 
         //eventos onclick
-
         binding.bottomNavigationView.setOnItemSelectedListener {
 
             when (it.itemId) {
