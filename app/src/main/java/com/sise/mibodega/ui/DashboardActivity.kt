@@ -27,7 +27,6 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         enableEdgeToEdge()
-//        setContentView(R.layout.activity_dashboard)
         setContentView(binding.root)
         remplazarFragmento(Home())
 
