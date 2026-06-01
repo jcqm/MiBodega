@@ -18,8 +18,6 @@ class Home : Fragment() {
         arguments?.let {
         }
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

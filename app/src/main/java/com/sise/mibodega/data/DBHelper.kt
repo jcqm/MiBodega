@@ -133,6 +133,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return existe
     }
 
+    //Para listar productos
+
 
     //Declarando constantes para crear la base de datos y sus tablas
     companion object {
