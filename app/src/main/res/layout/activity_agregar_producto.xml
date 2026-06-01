@@ -15,16 +15,71 @@
         android:layout_marginRight="24dp"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imageButton"
+        <Button
+            android:id="@+id/FotoProducto"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            app:srcCompat="@drawable/baseline_camera_alt_24" />
+            android:textAlignment="center"
+            app:icon="@drawable/baseline_camera_alt_24"
+            app:iconGravity="textStart"
+            app:iconSize="50dp" />
 
-        <ImageButton
-            android:id="@+id/imageButton2"
+
+        <Button
+            android:id="@+id/EscanearCodigoBarras"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            app:srcCompat="@drawable/barcode" />
+            app:icon="@drawable/baseline_document_scanner_24"
+            app:iconGravity="textStart"
+            app:iconSize="50dp" />
+
+        <EditText
+            android:id="@+id/txtNombreProducto"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:ems="10"
+            android:hint="Nombre del producto"
+            android:inputType="text" />
+
+        <Spinner
+            android:id="@+id/cboCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:ems="10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Precio Venta (S/)"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/txtStock"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Stock inicial"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/GuardarProducto"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Guardar Producto"
+            android:textSize="25dp" />
+
+
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
