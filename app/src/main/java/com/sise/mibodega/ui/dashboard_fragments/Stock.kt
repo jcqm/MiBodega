@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sise.mibodega.R
 
-
 class Stock : Fragment() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +22,5 @@ class Stock : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stock, container, false)
     }
-
 
 }

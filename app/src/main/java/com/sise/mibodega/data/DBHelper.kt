@@ -119,19 +119,19 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     //Una vez el usuario se haya registrado, quiero que que ya no aparezca el login tomando en cuenta si hay un usuario ya creado
-    fun ExistaDataEnUsurio(Tabla_usuario: String): Boolean {
+    fun ExisteUsuario(): Boolean {
         val db = this.readableDatabase
-        val consulta = "SELECT EXISTS(SELECT 1 FROM $Tabla_usuario LIMIT 1 )"
+        val consulta = db.rawQuery("SELECT EXISTS(SELECT 1 FROM $Tabla_usuario LIMIT 1 )", null)
 
-        db.rawQuery(consulta,null).use{
-            cursor -> if (cursor.moveToFirst()){
-                return cursor.getInt(0)==0
+        var existe = false
+
+        if (consulta.moveToFirst()) {
+            existe = consulta.getInt(0) > 0
         }
-        }
-        return true
+        consulta.close()
+
+        return existe
     }
-
-
 
 
     //Declarando constantes para crear la base de datos y sus tablas
@@ -182,4 +182,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val Tabla_EstadoFiado = "Estado"
         const val Tabla_FechaFiado = "FechaFiado"
     }
+
+
 }
