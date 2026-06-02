@@ -1,5 +1,6 @@
 package com.sise.mibodega.data;
 
+import android.R
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -10,76 +11,100 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
+    //Para activar las llaves foraneas
+    override fun onConfigure(db: SQLiteDatabase) {
+        super.onConfigure(db)
+        db.setForeignKeyConstraintsEnabled(true)
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
 
-        //Para activar las llaves foraneas
-        db.execSQL("PRAGMA foreign_keys=ON;")
-
-        //Para crear la tabla usuario
-        val crearUsuario = ("CREATE TABLE " + Tabla_usuario + " ("
-                + Tabla_UsuarioID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Tabla_Usuario_Nombres + " TEXT NOT NULL, " +
-                Tabla_Usuarios_Apellidos + " TEXT NOT NULL, " + ")")
+        // Tabla usuario
+        val crearUsuario = """
+        CREATE TABLE $Tabla_usuario (
+            $Tabla_UsuarioID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_Usuario_Nombres TEXT NOT NULL,
+            $Tabla_Usuarios_Apellidos TEXT NOT NULL
+        )
+    """.trimIndent()
         db.execSQL(crearUsuario)
 
-        //Crear tabla tienda
-        val crearTienda = ("CREATE TABLE $Tabla_tienda (" +
-                "$Tabla_TiendaID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$Tabla_UsuarioID INTEGER NOT NULL, " +
-                "$Tabla_Nombre_Tienda TEXT NOT NULL, " +
-                "$Tabla_Direccion_Tienda TEXT NOT NULL, " +
-                "FOREIGN KEY($Tabla_UsuarioID) REFERENCES $Tabla_usuario($Tabla_UsuarioID))")
+        // Tabla tienda
+        val crearTienda = """
+        CREATE TABLE $Tabla_tienda (
+            $Tabla_TiendaID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_UsuarioID INTEGER NOT NULL,
+            $Tabla_Nombre_Tienda TEXT NOT NULL,
+            $Tabla_Direccion_Tienda TEXT NOT NULL,
+            FOREIGN KEY($Tabla_UsuarioID) REFERENCES $Tabla_usuario($Tabla_UsuarioID)
+        )
+    """.trimIndent()
         db.execSQL(crearTienda)
 
-        //Crear tabla producto
-        val crearProducto = ("CREATE TABLE $Tabla_producto (" +
-                "$Tabla_ProductoID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$Tabla_TiendaID INTEGER NOT NULL, " +
-                "$Tabla_NombreProducto TEXT NOT NULL, " +
-                "$Tabla_CategoriaProducto TEXT, " +
-                "$Tabla_CodigoBarras TEXT, " +
-                "$Tabla_PrecioProducto REAL NOT NULL, " +
-                "$Tabla_StockProducto INTEGER NOT NULL, " +
-                "FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID))")
+        // Tabla producto
+        val crearProducto = """
+        CREATE TABLE $Tabla_producto (
+            $Tabla_ProductoID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_TiendaID INTEGER NOT NULL,
+            $Tabla_NombreProducto TEXT NOT NULL,
+            $Tabla_CategoriaProducto TEXT,
+            $Tabla_CodigoBarras TEXT,
+            $Tabla_PrecioProducto REAL NOT NULL,
+            $Tabla_StockProducto INTEGER NOT NULL,
+            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
+        )
+    """.trimIndent()
         db.execSQL(crearProducto)
 
-        //Crear tabla venta
-        val crearVenta = ("CREATE TABLE $Tabla_venta (" +
-                "$Tabla_VentaID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$Tabla_TiendaID INTEGER NOT NULL, " +
-                "$Tabla_FechaVenta TEXT NOT NULL, " +
-                "$Tabla_TotalVenta REAL NOT NULL, " +
-                "FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID))")
+        // Tabla venta
+        val crearVenta = """
+        CREATE TABLE $Tabla_venta (
+            $Tabla_VentaID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_TiendaID INTEGER NOT NULL,
+            $Tabla_FechaVenta TEXT NOT NULL,
+            $Tabla_TotalVenta REAL NOT NULL,
+            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
+        )
+    """.trimIndent()
         db.execSQL(crearVenta)
 
-        //Crear tabla detalleVenta
-        val crearDetalleVenta = ("CREATE TABLE $Tabla_detalleVenta (" +
-                "$Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$Tabla_VentaID INTEGER NOT NULL, " +
-                "$Tabla_ProductoID INTEGER NOT NULL, " +
-                "$Tabla_Cantidad INTEGER NOT NULL, " +
-                "$Tabla_PrecioUnitario REAL NOT NULL, " +
-                "$Tabla_Subtotal REAL NOT NULL, " +
-                "FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID), " +
-                "FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID))")
+        // Tabla detalle venta
+        val crearDetalleVenta = """
+        CREATE TABLE $Tabla_detalleVenta (
+            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_VentaID INTEGER NOT NULL,
+            $Tabla_ProductoID INTEGER NOT NULL,
+            $Tabla_CantidadDetalleVenta INTEGER NOT NULL,
+            $Tabla_PrecioUnitario REAL NOT NULL,
+            $Tabla_Subtotal REAL NOT NULL,
+            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID),
+            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
+        )
+    """.trimIndent()
         db.execSQL(crearDetalleVenta)
 
-        //Crear tabla fiado
-        val crearFiado = ("CREATE TABLE $Tabla_fiado(" +
-                "$Tabla_FiadoID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$Tabla_NombreCliente TEXT NOT NULL, " +
-                "$Tabla_MontoDeuda REAL NOT NULL, " +
-                "$Tabla_EstadoFiado TEXT NOT NULL, " +
-                "$Tabla_FechaFiado TEXT NOT NULL, " +
-                "$Tabla_NombreCliente TEXT NOT NULL, " +
-                "FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID))")
+        // Tabla fiado
+        val crearFiado = """
+        CREATE TABLE $Tabla_fiado (
+            $Tabla_FiadoID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_VentaID INTEGER NOT NULL,
+            $Tabla_NombreCliente TEXT NOT NULL,
+            $Tabla_MontoDeuda REAL NOT NULL,
+            $Tabla_EstadoFiado TEXT NOT NULL,
+            $Tabla_FechaFiado TEXT NOT NULL,
+            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID)
+        )
+    """.trimIndent()
         db.execSQL(crearFiado)
     }
 
-    // Se llama cuando la base de datos tiene que ser usada
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $Tabla_usuario")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_detalleVenta")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_fiado")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_venta")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_producto")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_tienda")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_usuario")
 
         onCreate(db)
     }
@@ -122,7 +147,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun ExisteUsuario(): Boolean {
         val db = this.readableDatabase
         val consulta = db.rawQuery("SELECT EXISTS(SELECT 1 FROM $Tabla_usuario LIMIT 1 )", null)
-
         var existe = false
 
         if (consulta.moveToFirst()) {
@@ -133,14 +157,57 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return existe
     }
 
-    //Para listar productos
+    //Consultas para el stock, listar, agregar, eliminar, editar, no se, lo que tenga que ver con el stock
+
+    //para que devuela el numero total de items en el stock
+
+    fun contarStock(): Cursor {
+        return readableDatabase.rawQuery("SELECT COUNT(*) FROM $Tabla_producto",null)
+    }
 
 
-    //Declarando constantes para crear la base de datos y sus tablas
+    //Para listar, primero defino el modelo que quiero usar, con las variable que entraran
+    data class Productos(
+        val nombreProducto: String,
+        val CategoriaProducto: String,
+        val PrecioProducto: Float,
+        val StockProducto: Int
+    )
+
+    //Creo la funcion que devuelva una array list
+    fun ListarStock(): ArrayList<Productos> {
+        val listaProducto = ArrayList<Productos>()
+        val db = this.readableDatabase
+
+        val consulta = db.rawQuery(
+            "SELECT DISTINCT $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto,$Tabla_StockProducto FROM $Tabla_producto",
+            null
+        )
+
+        if (consulta.moveToFirst()) {
+            do {
+                val nombreProducto = consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreProducto))
+                val CategoriaProducto =
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_CategoriaProducto))
+                val PrecioProducto = consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_PrecioProducto))
+                val StockProducto = consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_StockProducto))
+                listaProducto.add(Productos(nombreProducto, CategoriaProducto, PrecioProducto,StockProducto ))
+            } while (consulta.moveToNext())
+        }
+        consulta.close()
+        db.close()
+
+        return listaProducto
+    }
+
+
+
+
+    //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"
@@ -172,7 +239,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         //Detalle Venta
         const val Tabla_detalleVenta = "detalle_venta"
         const val Tabla_DetalleVentaID = "DetalleVentaID"
-        const val Tabla_Cantidad = "Cantidad"
+        const val Tabla_CantidadDetalleVenta = "Cantidad"
         const val Tabla_PrecioUnitario = "PrecioUnitario"
         const val Tabla_Subtotal = "Subtotal"
 
