@@ -230,6 +230,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     // CRUD STOCK/PRODUCTOS
 
+    //INSERTAR PRODUCTO
     fun insertar_producto(
         nombreProducto: String,
         categoria: String,
@@ -239,6 +240,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     ) {
         writableDatabase.use { db ->
 
+            //Sacar id de tienda
             val tiendaID: String = obtenerDeBD(
                 Tabla_tienda,
                 Tabla_TiendaID,
