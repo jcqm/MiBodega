@@ -1,6 +1,5 @@
 package com.sise.mibodega.data;
 
-import android.R
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -160,13 +159,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     //Consultas para el stock, listar, agregar, eliminar, editar, no se, lo que tenga que ver con el stock
 
     //para que devuela el numero total de items en el stock
-
     fun contarStock(): Cursor {
-        return readableDatabase.rawQuery("SELECT COUNT(*) FROM $Tabla_producto",null)
+        return readableDatabase.rawQuery("SELECT COUNT(*) FROM $Tabla_producto", null)
     }
 
 
-    //Para listar, primero defino el modelo que quiero usar, con las variable que entraran
+    //PARA LISTAR, primero defino el modelo que quiero usar, con las variable que entraran
     data class Productos(
         val nombreProducto: String,
         val CategoriaProducto: String,
@@ -186,12 +184,22 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         if (consulta.moveToFirst()) {
             do {
-                val nombreProducto = consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreProducto))
+                val nombreProducto =
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreProducto))
                 val CategoriaProducto =
                     consulta.getString(consulta.getColumnIndexOrThrow(Tabla_CategoriaProducto))
-                val PrecioProducto = consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_PrecioProducto))
-                val StockProducto = consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_StockProducto))
-                listaProducto.add(Productos(nombreProducto, CategoriaProducto, PrecioProducto,StockProducto ))
+                val PrecioProducto =
+                    consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_PrecioProducto))
+                val StockProducto =
+                    consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_StockProducto))
+                listaProducto.add(
+                    Productos(
+                        nombreProducto,
+                        CategoriaProducto,
+                        PrecioProducto,
+                        StockProducto
+                    )
+                )
             } while (consulta.moveToNext())
         }
         consulta.close()
@@ -201,6 +209,53 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
 
+    //Funcion para poder sacar cualquier informacion de una tabla
+    fun obtenerDeBD(
+        nombreTabla: String,
+        select: String, // aca pones lo que quieres sacaar
+//        selectBy: String,
+//        selectNombre: String
+    ): String {
+        val db = this.readableDatabase
+        var resultado = "Error"
+        val c: Cursor = db.query(nombreTabla, arrayOf(select), null, null, null, null, null)
+        if (c.count == 1) {
+            c.moveToFirst()
+            resultado = c.getString(c.getColumnIndexOrThrow(select))
+        }
+        c.close()
+        return resultado
+    }
+
+
+    // CRUD STOCK/PRODUCTOS
+
+    fun insertar_producto(
+        nombreProducto: String,
+        categoria: String,
+        codigoBarras: String,
+        precio: Float,
+        stock: Int
+    ) {
+        writableDatabase.use { db ->
+
+            val tiendaID: String = obtenerDeBD(
+                Tabla_tienda,
+                Tabla_TiendaID,
+            )
+
+            val valoresProducto = ContentValues().apply {
+                put(Tabla_TiendaID, tiendaID.toInt())
+                put(Tabla_NombreProducto, nombreProducto)
+                put(Tabla_CategoriaProducto, categoria)
+                put(Tabla_CodigoBarras, codigoBarras)
+                put(Tabla_PrecioProducto, precio)
+                put(Tabla_StockProducto, stock)
+            }
+
+            db.insert(Tabla_producto, null, valoresProducto)
+        }
+    }
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
@@ -236,7 +291,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val Tabla_FechaVenta = "FechaVenta"
         const val Tabla_TotalVenta = "Total"
 
-        //Detalle Venta
+        //tabla detalle Venta
         const val Tabla_detalleVenta = "detalle_venta"
         const val Tabla_DetalleVentaID = "DetalleVentaID"
         const val Tabla_CantidadDetalleVenta = "Cantidad"
