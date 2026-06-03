@@ -228,9 +228,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
 
-    // CRUD STOCK/PRODUCTOS
+    ////////// CRUD STOCK/PRODUCTOS ////////////
 
-    //INSERTAR PRODUCTO
+    //INSERTAR PRODUCTO//////
     fun insertar_producto(
         nombreProducto: String,
         categoria: String,
@@ -258,6 +258,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             db.insert(Tabla_producto, null, valoresProducto)
         }
     }
+
+    //EDITAR PRODUCTO//
+
+
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
