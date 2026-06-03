@@ -45,8 +45,6 @@ class DashboardActivity : AppCompatActivity() {
             }
             true
         }
-
-
     }
 
 

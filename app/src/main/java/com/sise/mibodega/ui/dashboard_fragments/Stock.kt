@@ -45,7 +45,7 @@ class Stock : Fragment() {
         val productos = dbHelper.ListarStock()
         val datos = ArrayList<String>()
 
-        for (p in productos){
+        for (p in productos) {
             datos.add("${p.nombreProducto} - ${p.CategoriaProducto} - S/. ${p.PrecioProducto}   -   ${p.StockProducto} Unidades")
         }
 
@@ -64,11 +64,6 @@ class Stock : Fragment() {
             val cantidad = cursorCantidad.getString(0)
             lblCantidadItems.text = cantidad + " Unidades"
         }
-
-
-
-
-
 
 
         //para dirigirse a agregar producto
