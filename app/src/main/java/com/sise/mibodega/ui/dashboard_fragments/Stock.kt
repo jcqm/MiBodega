@@ -6,13 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputBinding
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
+import com.sise.mibodega.databinding.ActivityDashboardBinding
+import com.sise.mibodega.databinding.FragmentStockBinding
 import com.sise.mibodega.ui.DashboardActivity
+import com.sise.mibodega.ui.ListarProductoAdapter
 
 class Stock : Fragment() {
 
@@ -21,6 +26,9 @@ class Stock : Fragment() {
 
     lateinit var listaResultado: ListView
     lateinit var lblCantidadItems: TextView
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,28 +46,34 @@ class Stock : Fragment() {
 
         //Inicializando
         btnAgregarProducto = view.findViewById(R.id.btnAgregarProducto)
-        listaResultado = view.findViewById(R.id.listaResultado)
+//        listaResultado = view.findViewById(R.id.listaResultado)
         lblCantidadItems = view.findViewById(R.id.lblitems)
+        listaResultado = view.findViewById<ListView>(R.id.listaResultado)
 
 
         //Listar stock en list view
-        val productos = dbHelper.ListarStock()
-        val datos = ArrayList<String>()
-
-
-        for (p in productos) {
-            datos.add("${p.nombreProducto} - ${p.CategoriaProducto} - S/. ${p.PrecioProducto}   -   ${p.StockProducto} Unidades")
-        }
-
-        val adaptadorProductos = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            datos
-        )
-
-        listaResultado.adapter = adaptadorProductos
+//        val productos = dbHelper.ListarStock()
+//        val datos = ArrayList<String>()
+//
+//
+//        for (p in productos) {
+//            datos.add("${p.nombreProducto} - ${p.CategoriaProducto} - S/. ${p.PrecioProducto}   -   ${p.StockProducto} Unidades")
+//        }
+//
+//        val adaptadorProductos = ArrayAdapter(
+//            requireContext(),
+//            android.R.layout.simple_list_item_1,
+//            datos
+//        )
+//
+//        listaResultado.adapter = adaptadorProductos
 
         ////////////////////////////
+
+        val productos = dbHelper.ListarStock()
+
+        val adapter = ListarProductoAdapter(requireContext(), productos)
+        listaResultado.adapter = adapter
 
 
 
