@@ -28,9 +28,6 @@ class Stock : Fragment() {
     lateinit var lblCantidadItems: TextView
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {}
@@ -46,49 +43,18 @@ class Stock : Fragment() {
 
         //Inicializando
         btnAgregarProducto = view.findViewById(R.id.btnAgregarProducto)
-//        listaResultado = view.findViewById(R.id.listaResultado)
+        listaResultado = view.findViewById(R.id.listaResultado)
         lblCantidadItems = view.findViewById(R.id.lblitems)
         listaResultado = view.findViewById<ListView>(R.id.listaResultado)
 
 
-        //Listar stock en list view
-//        val productos = dbHelper.ListarStock()
-//        val datos = ArrayList<String>()
-//
-//
-//        for (p in productos) {
-//            datos.add("${p.nombreProducto} - ${p.CategoriaProducto} - S/. ${p.PrecioProducto}   -   ${p.StockProducto} Unidades")
-//        }
-//
-//        val adaptadorProductos = ArrayAdapter(
-//            requireContext(),
-//            android.R.layout.simple_list_item_1,
-//            datos
-//        )
-//
-//        listaResultado.adapter = adaptadorProductos
-
-        ////////////////////////////
+        /////////////LISTAR ///////////////
+        // Tuve que crear un adapter personalizado
 
         val productos = dbHelper.ListarStock()
 
         val adapter = ListarProductoAdapter(requireContext(), productos)
         listaResultado.adapter = adapter
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // Mostrar cantidad
