@@ -30,6 +30,7 @@ android {
         }
     }
 
+    //Para la navegacion de abajo del dashboard
     buildFeatures{
         viewBinding = true
 

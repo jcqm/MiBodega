@@ -50,6 +50,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             $Tabla_CodigoBarras TEXT,
             $Tabla_PrecioProducto REAL NOT NULL,
             $Tabla_StockProducto INTEGER NOT NULL,
+            
             FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
         )
     """.trimIndent()
@@ -169,7 +170,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val nombreProducto: String,
         val CategoriaProducto: String,
         val PrecioProducto: Float,
-        val StockProducto: Int
+        val StockProducto: Int,
+
     )
 
     //Creo la funcion que devuelva una array list
@@ -290,6 +292,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val Tabla_CodigoBarras = "CodigoBarras"
         const val Tabla_PrecioProducto = "Precio"
         const val Tabla_StockProducto = "Stock"
+        const val Tabla_FotoProducto = "FotoProducto"
 
         //Tabla Venta
         const val Tabla_venta = "venta"
