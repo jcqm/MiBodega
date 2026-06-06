@@ -43,8 +43,18 @@
         android:layout_marginRight="24dp"
         android:orientation="vertical">
 
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+
+
+
         <Button
-            android:id="@+id/FotoProducto"
+            android:id="@+id/btnFotoProducto"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:textAlignment="center"
