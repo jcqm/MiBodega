@@ -7,23 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputBinding
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
 import com.sise.mibodega.databinding.ActivityDashboardBinding
 import com.sise.mibodega.databinding.FragmentStockBinding
 import com.sise.mibodega.ui.DashboardActivity
 import com.sise.mibodega.ui.ListarProductoAdapter
+import com.sise.mibodega.ui.Productos_detalles
+
 
 class Stock : Fragment() {
 
     private lateinit var dbHelper: DBHelper
     private lateinit var btnAgregarProducto: Button
-
     lateinit var listaResultado: ListView
     lateinit var lblCantidadItems: TextView
 
@@ -56,6 +59,22 @@ class Stock : Fragment() {
         val adapter = ListarProductoAdapter(requireContext(), productos)
         listaResultado.adapter = adapter
 
+        listaResultado.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            // Obtener el producto  usando la posición seleccionada
+            val productoSeleccionado = productos[position]
+
+            // Creo el Intent apuntando a la actividad de detalles
+            val intent = Intent(requireContext(), Productos_detalles::class.java)
+
+            intent.putExtra("nombreProducto", productoSeleccionado.nombreProducto)
+            intent.putExtra("CategoriaProducto", productoSeleccionado.CategoriaProducto)
+            intent.putExtra("PrecioProducto", productoSeleccionado.PrecioProducto)
+            intent.putExtra("StockProducto", productoSeleccionado.StockProducto)
+            intent.putExtra("FotoProducto",productoSeleccionado.FotoProducto)
+
+
+            startActivity(intent)
+        }
 
         // Mostrar cantidad
         val cursorCantidad = dbHelper.contarStock()

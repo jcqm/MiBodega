@@ -10,37 +10,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:orientation="vertical"
-        tools:context=".DetailedActivity">
+        tools:context=".DetailedActivity"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
 
         <TextView
+
             android:id="@+id/detailName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="14dp"
-            android:text="Recipe Name"
-            android:textColor="@color/black"
+            android:text="Editar / Eliminar"
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardImage"
-            android:layout_width="380dp"
+        <ImageView
+            android:id="@+id/imgImagenDetallesProducto"
+            android:layout_width="300dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="8dp">
-
-            <ImageView
-                android:id="@+id/imgImagenDetallesProducto"
-                android:layout_width="380dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp" />
-        </androidx.cardview.widget.CardView>
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +42,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:text="Nombre"
-            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -56,42 +49,46 @@
             android:id="@+id/txtEditarNombreProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:text="Cantidad:"
-            android:textColor="@color/black"
+            android:text="Cantidad y Stock:"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtEditarCantidadProducto"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp" />
+            android:layout_height="77dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Precio"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/txtEditarPrecioProducto"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Precio Venta (S/)"
+                android:inputType="number" />
 
-        <EditText
-            android:id="@+id/txtEditarPrecioProducto"
+            <EditText
+                android:id="@+id/txtEditarStock"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Stock inicial"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/spEditarCategoria"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp" />
+            android:layout_height="40dp"
+            android:ems="10" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,15 +103,15 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Editar" />
 
             <Button
-                android:id="@+id/btnVolverToStock"
+                android:id="@+id/btnEliminar"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Eliminar" />
         </LinearLayout>
 
     </LinearLayout>

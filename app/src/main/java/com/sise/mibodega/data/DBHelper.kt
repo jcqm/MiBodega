@@ -171,7 +171,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val CategoriaProducto: String,
         val PrecioProducto: Float,
         val StockProducto: Int,
-
         val FotoProducto: String // nuevo
 
     )
@@ -271,6 +270,37 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     //EDITAR PRODUCTO//
+    fun editar_producto(
+        idProducto: Int,
+        nombreProducto: String,
+        categoria: String,
+        codigoBarras: String,
+        precio: Float,
+        stock: Int,
+        foto: String //NUEVO
+
+    ) {
+        writableDatabase.use { db ->
+
+            //Sacar id de tienda
+            val tiendaID: String = obtenerDeBD(
+                Tabla_tienda,
+                Tabla_TiendaID,
+            )
+
+            val valoresProducto = ContentValues().apply {
+                put(Tabla_TiendaID, tiendaID.toInt())
+                put(Tabla_NombreProducto, nombreProducto)
+                put(Tabla_CategoriaProducto, categoria)
+                put(Tabla_CodigoBarras, codigoBarras)
+                put(Tabla_PrecioProducto, precio)
+                put(Tabla_StockProducto, stock)
+                put(Tabla_FotoProducto, foto)//NUEVO
+            }
+
+            db.insert(Tabla_producto, null, valoresProducto)
+        }
+    }
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas

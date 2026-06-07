@@ -99,7 +99,6 @@ class AgregarProducto : AppCompatActivity() {
         //////////////////////////////////////////////////////////////////////
 
 
-
         /////////////////////////////////////////////////////////////////
 
         btnGuardarProducto.setOnClickListener {
@@ -136,9 +135,6 @@ class AgregarProducto : AppCompatActivity() {
 
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
-
-
-
 
 
             }
