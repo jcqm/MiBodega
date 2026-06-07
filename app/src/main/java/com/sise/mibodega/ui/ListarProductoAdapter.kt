@@ -1,6 +1,7 @@
 package com.sise.mibodega.ui
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,21 +28,28 @@ class ListarProductoAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
-        val vista = LayoutInflater.from(context)
+        // si ya existe la vista se reutiliza
+        val vista = convertView ?: LayoutInflater.from(context)
             .inflate(R.layout.lista_productos, parent, false)
 
         val producto = lista[position]
 
         vista.findViewById<TextView>(R.id.txtLista_ProductoNombre).text = producto.nombreProducto
-        vista.findViewById<TextView>(R.id.txtLista_ProductoCategoria).text =
-            producto.CategoriaProducto
-        vista.findViewById<TextView>(R.id.txtLista_ProductoPrecio).text =
-            "S/. ${producto.PrecioProducto}"
-        vista.findViewById<TextView>(R.id.txtLista_ProductoCantidad).text =
-            "${producto.StockProducto} Ud."
+        vista.findViewById<TextView>(R.id.txtLista_ProductoCategoria).text = producto.CategoriaProducto
+        vista.findViewById<TextView>(R.id.txtLista_ProductoPrecio).text = "S/. ${producto.PrecioProducto}"
+        vista.findViewById<TextView>(R.id.txtLista_ProductoCantidad).text = "${producto.StockProducto} Ud."
+
+        // se convierte la ruta a URI para mostrarla en el ImageView
+        val imgProducto = vista.findViewById<ImageView>(R.id.imgLista_ProductoImagen)
+
+        if (!producto.FotoProducto.isNullOrEmpty()) {
+            imgProducto.setImageURI(Uri.parse(producto.FotoProducto))
+        } else {
+
+            // placeholdre por si no tiene foto
+            imgProducto.setImageResource(R.drawable.baseline_inventory_24)
+        }
 
         return vista
     }
-
-
 }

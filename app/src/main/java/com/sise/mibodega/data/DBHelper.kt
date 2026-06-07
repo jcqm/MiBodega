@@ -172,6 +172,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val PrecioProducto: Float,
         val StockProducto: Int,
 
+        val FotoProducto: String // nuevo
+
     )
 
     //Creo la funcion que devuelva una array list
@@ -180,7 +182,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val db = this.readableDatabase
 
         val consulta = db.rawQuery(
-            "SELECT DISTINCT $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto,$Tabla_StockProducto FROM $Tabla_producto",
+            "SELECT DISTINCT $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto,$Tabla_StockProducto, $Tabla_FotoProducto FROM $Tabla_producto",
             null
         )
 
@@ -194,12 +196,15 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_PrecioProducto))
                 val StockProducto =
                     consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_StockProducto))
+                val FotoProducto=
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_FotoProducto))
                 listaProducto.add(
                     Productos(
                         nombreProducto,
                         CategoriaProducto,
                         PrecioProducto,
-                        StockProducto
+                        StockProducto,
+                        FotoProducto
                     )
                 )
             } while (consulta.moveToNext())

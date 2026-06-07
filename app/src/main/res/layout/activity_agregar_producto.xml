@@ -63,13 +63,13 @@
             app:iconSize="50dp" />
 
 
-        <Button
-            android:id="@+id/EscanearCodigoBarras"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:icon="@drawable/baseline_document_scanner_24"
-            app:iconGravity="textStart"
-            app:iconSize="50dp" />
+<!--        <Button-->
+<!--            android:id="@+id/EscanearCodigoBarras"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="120dp"-->
+<!--            app:icon="@drawable/baseline_document_scanner_24"-->
+<!--            app:iconGravity="textStart"-->
+<!--            app:iconSize="50dp" />-->
 
         <EditText
             android:id="@+id/txtNombreProducto"

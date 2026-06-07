@@ -146,7 +146,7 @@ class AgregarProducto : AppCompatActivity() {
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            // CameraX Preview Use Case
+            // CameraX Preview
             val preview = Preview.Builder()
                 .build()
                 .also { it.setSurfaceProvider(previewView.surfaceProvider) }
@@ -177,7 +177,6 @@ class AgregarProducto : AppCompatActivity() {
         ).format(Date())
 
         // Carpeta FotosProductos dentro de la app
-//        val directorio = File(filesDir, "FotosProducto")
         val directorio = File(
             getExternalFilesDir(null),
             "FotosProductos"
@@ -228,12 +227,12 @@ class AgregarProducto : AppCompatActivity() {
 
     }
 
-    // Checks if all required permissions are granted
+    // Revisa si todos los permison son dados
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Handles the result of permission requests
+    // Maneja los resultados de los permisos dados
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
