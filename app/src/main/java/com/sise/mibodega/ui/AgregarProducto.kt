@@ -256,9 +256,16 @@ class AgregarProducto : AppCompatActivity() {
     }
 
     companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
+//        private const val REQUEST_CODE_PERMISSIONS = 10
+        public const val REQUEST_CODE_PERMISSIONS = 10
 
-        private val REQUIRED_PERMISSIONS =
+
+//        private val REQUIRED_PERMISSIONS =
+//            mutableListOf(
+//                Manifest.permission.CAMERA
+//            ).toTypedArray()
+
+        public val REQUIRED_PERMISSIONS =
             mutableListOf(
                 Manifest.permission.CAMERA
             ).toTypedArray()

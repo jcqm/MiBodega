@@ -318,7 +318,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             val valoresProducto = arrayOf(idProducto.toString())
             val whereArgs = arrayOf(idProducto.toString())
 
-
             val whereClause = "ProductoID = ?"
             db.delete(Tabla_producto, whereClause, whereArgs)
         }
