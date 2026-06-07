@@ -50,7 +50,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             $Tabla_CodigoBarras TEXT,
             $Tabla_PrecioProducto REAL NOT NULL,
             
-            $Tabla_StockProducto INTEGER NOT NULL,
+            $Tabla_StockProducto TEX NOT NULL,
             $Tabla_FotoProducto TEXT,
             FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
         )
@@ -238,7 +238,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         categoria: String,
         codigoBarras: String,
         precio: Float,
-        stock: Int
+        stock: Int,
+
+        foto: String //NUEVO
+
     ) {
         writableDatabase.use { db ->
 
@@ -255,6 +258,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 put(Tabla_CodigoBarras, codigoBarras)
                 put(Tabla_PrecioProducto, precio)
                 put(Tabla_StockProducto, stock)
+                put(Tabla_FotoProducto, foto)//NUEVO
             }
 
             db.insert(Tabla_producto, null, valoresProducto)

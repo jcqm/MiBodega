@@ -44,6 +44,7 @@ class AgregarProducto : AppCompatActivity() {
     private lateinit var previewView: PreviewView
 
     //CameraX
+    private var rutaFoto: String = ""
     private var imageCapture: ImageCapture? = null
 
 
@@ -85,10 +86,10 @@ class AgregarProducto : AppCompatActivity() {
         ///////////////////////////FOTO//////////////////////////////////////
 
         //Nuevo con cameraX
-        if (allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera()
-        }else{
-            ActivityCompat.requestPermissions(this,REQUIRED_PERMISSIONS,REQUEST_CODE_PERMISSIONS)
+        } else {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
         btnTomarFoto.setOnClickListener {
             captureImage()
@@ -108,20 +109,21 @@ class AgregarProducto : AppCompatActivity() {
             val inputCodigoBarras = "no"
 
 
-
-
             if (inputNombreProducto.isEmpty() || inputCategoria.isEmpty() || inputPrecioVentaString.isEmpty() || inputStockinicialString.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete los campos", Toast.LENGTH_SHORT).show()
             } else {
                 val inputPrecioVenta = inputPrecioVentaString.toFloat()
                 val inputStockinicial = inputStockinicialString.toInt()
 
+
                 db.insertar_producto(
                     inputNombreProducto,
                     inputCategoria,
                     inputCodigoBarras,
                     inputPrecioVenta,
-                    inputStockinicial
+                    inputStockinicial,
+                    rutaFoto
+
 
                 )
                 Toast.makeText(
@@ -168,6 +170,7 @@ class AgregarProducto : AppCompatActivity() {
     private fun captureImage() {
         val imageCapture = imageCapture ?: return
 
+
         val timestamp = SimpleDateFormat(
             "yyyyMMdd_HHmmss",
             Locale.US
@@ -201,6 +204,8 @@ class AgregarProducto : AppCompatActivity() {
                 override fun onImageSaved(
                     outputFileResults: ImageCapture.OutputFileResults
                 ) {
+                    rutaFoto = archivoFoto.absolutePath
+
                     Toast.makeText(
                         this@AgregarProducto,
                         "\n${archivoFoto.absolutePath}",
@@ -219,6 +224,8 @@ class AgregarProducto : AppCompatActivity() {
                 }
             }
         )
+
+
     }
 
     // Checks if all required permissions are granted
@@ -227,7 +234,11 @@ class AgregarProducto : AppCompatActivity() {
     }
 
     // Handles the result of permission requests
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
@@ -247,8 +258,6 @@ class AgregarProducto : AppCompatActivity() {
                 Manifest.permission.CAMERA
             ).toTypedArray()
     }
-
-
 
 
 }
