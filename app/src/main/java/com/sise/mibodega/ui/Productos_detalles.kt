@@ -131,6 +131,24 @@ class Productos_detalles : AppCompatActivity() {
             }
         }
 
+        btnEliminar.setOnClickListener {
+            val idProductoString = ProductoID.text.toString().trim()
+            val inputNombreProducto = txtNombre.text.toString().trim()
+            val idProductoInt = idProductoString.toInt()
+
+            db.eliminar_producto(idProductoInt)
+
+            Toast.makeText(
+                this,
+                "Producto $inputNombreProducto eliminado",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
 

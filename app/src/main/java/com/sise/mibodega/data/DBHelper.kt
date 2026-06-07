@@ -188,7 +188,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         if (consulta.moveToFirst()) {
             do {
-                val idProducto=
+                val idProducto =
                     consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_ProductoID))
                 val nombreProducto =
                     consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreProducto))
@@ -273,8 +273,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
 
-
-
     //EDITAR PRODUCTO//
     fun editar_producto(
         idProducto: Int,
@@ -310,6 +308,22 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             db.update(Tabla_producto, ContentValues, whereClause, valoresProducto)
         }
     }
+
+    //ELIMINAR PRODUCTO//
+    fun eliminar_producto(
+        idProducto: Int,
+    ) {
+        writableDatabase.use { db ->
+
+            val valoresProducto = arrayOf(idProducto.toString())
+            val whereArgs = arrayOf(idProducto.toString())
+
+
+            val whereClause = "ProductoID = ?"
+            db.delete(Tabla_producto, whereClause, whereArgs)
+        }
+    }
+    //BUSCAR
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
