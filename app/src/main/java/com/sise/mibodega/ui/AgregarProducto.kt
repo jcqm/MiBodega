@@ -232,7 +232,7 @@ class AgregarProducto : AppCompatActivity() {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Maneja los resultados de los permisos dados
+    // Maneja los resultados de los permisos
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,

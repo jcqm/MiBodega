@@ -279,7 +279,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"
