@@ -4,14 +4,14 @@
     <!-- Para poder acceder al almacenamiento en manifest -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-<!--    Permiso de la camara-->
+    <!--    Permiso de la camara-->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-<!--        android:maxSdkVersion="32"-->
-<!--        tools:ignore="ScopedStorage" />-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
+    <!--        android:maxSdkVersion="32"-->
+    <!--        tools:ignore="ScopedStorage" />-->
 
 
     <application
@@ -26,6 +26,7 @@
         <activity
             android:name=".ui.Productos_detalles"
             android:exported="false" />
+
         <activity
             android:name=".ui.AgregarProducto"
             android:exported="false" />
@@ -35,6 +36,7 @@
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,11 +47,11 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
     </application>

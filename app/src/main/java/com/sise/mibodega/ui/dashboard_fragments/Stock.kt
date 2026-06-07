@@ -48,7 +48,7 @@ class Stock : Fragment() {
         listaResultado = view.findViewById<ListView>(R.id.listaResultado)
 
 
-        /////////////LISTAR ///////////////
+        ////////////// LISTAR ////////////////////////////////////
         // Tuve que crear un adapter personalizado
 
         val productos = dbHelper.ListarStock()
@@ -64,7 +64,7 @@ class Stock : Fragment() {
             val cantidad = cursorCantidad.getString(0)
             lblCantidadItems.text = cantidad + " Unidades"
         }
-
+        //////////////////////////////////////////////////////
 
         //para dirigirse a agregar producto
         btnAgregarProducto.setOnClickListener {

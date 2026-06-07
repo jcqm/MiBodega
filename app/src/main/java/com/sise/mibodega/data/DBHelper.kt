@@ -196,7 +196,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_PrecioProducto))
                 val StockProducto =
                     consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_StockProducto))
-                val FotoProducto=
+                val FotoProducto =
                     consulta.getString(consulta.getColumnIndexOrThrow(Tabla_FotoProducto))
                 listaProducto.add(
                     Productos(
@@ -271,8 +271,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     //EDITAR PRODUCTO//
-
-
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas

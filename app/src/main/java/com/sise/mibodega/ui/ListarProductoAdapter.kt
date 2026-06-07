@@ -35,9 +35,12 @@ class ListarProductoAdapter(
         val producto = lista[position]
 
         vista.findViewById<TextView>(R.id.txtLista_ProductoNombre).text = producto.nombreProducto
-        vista.findViewById<TextView>(R.id.txtLista_ProductoCategoria).text = producto.CategoriaProducto
-        vista.findViewById<TextView>(R.id.txtLista_ProductoPrecio).text = "S/. ${producto.PrecioProducto}"
-        vista.findViewById<TextView>(R.id.txtLista_ProductoCantidad).text = "${producto.StockProducto} Ud."
+        vista.findViewById<TextView>(R.id.txtLista_ProductoCategoria).text =
+            producto.CategoriaProducto
+        vista.findViewById<TextView>(R.id.txtLista_ProductoPrecio).text =
+            "S/. ${producto.PrecioProducto}"
+        vista.findViewById<TextView>(R.id.txtLista_ProductoCantidad).text =
+            "${producto.StockProducto} Ud."
 
         // se convierte la ruta a URI para mostrarla en el ImageView
         val imgProducto = vista.findViewById<ImageView>(R.id.imgLista_ProductoImagen)

@@ -29,6 +29,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.camera.view.PreviewView
+import com.sise.mibodega.ui.dashboard_fragments.Stock
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -98,6 +99,7 @@ class AgregarProducto : AppCompatActivity() {
         //////////////////////////////////////////////////////////////////////
 
 
+
         /////////////////////////////////////////////////////////////////
 
         btnGuardarProducto.setOnClickListener {
@@ -131,6 +133,14 @@ class AgregarProducto : AppCompatActivity() {
                     "Producto $inputNombreProducto correctamente",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+
+
+
+
+
             }
         }
 

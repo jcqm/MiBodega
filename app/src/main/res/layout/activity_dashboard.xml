@@ -29,6 +29,8 @@
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="28dp"
+
         android:id="@+id/cardTitulo"
         android:layout_width="411dp"
         android:layout_height="50dp"
