@@ -82,7 +82,8 @@ class Productos_detalles : AppCompatActivity() {
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 AgregarProducto.Companion.REQUIRED_PERMISSIONS,
                 AgregarProducto.Companion.REQUEST_CODE_PERMISSIONS
             )
@@ -92,7 +93,6 @@ class Productos_detalles : AppCompatActivity() {
         }
 
         //////////////////////////////////////////////////////////////////////
-
 
 
         val adapterCategoria = ArrayAdapter(
@@ -137,7 +137,6 @@ class Productos_detalles : AppCompatActivity() {
             val inputStockinicialString = txtCantidad.text.toString().trim()
 
             val inputCodigoBarras = "no"
-            val inputFoto = "no"
 
 
             if (inputNombreProducto.isEmpty() || inputCategoria.isEmpty() || inputPrecioVentaString.isEmpty() || inputStockinicialString.isEmpty()) {
@@ -156,7 +155,7 @@ class Productos_detalles : AppCompatActivity() {
                     inputCodigoBarras,
                     inputPrecioVenta,
                     inputStockinicial,
-                    inputFoto
+                    rutaFoto
 
                 )
                 Toast.makeText(
@@ -312,7 +311,6 @@ class Productos_detalles : AppCompatActivity() {
                 Manifest.permission.CAMERA
             ).toTypedArray()
     }
-
 
 
 }
