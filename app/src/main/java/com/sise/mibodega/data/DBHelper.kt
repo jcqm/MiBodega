@@ -269,6 +269,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
 
+
+
     //EDITAR PRODUCTO//
     fun editar_producto(
         idProducto: Int,
@@ -288,7 +290,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 Tabla_TiendaID,
             )
 
-            val valoresProducto = ContentValues().apply {
+            val ContentValues = ContentValues().apply {
                 put(Tabla_TiendaID, tiendaID.toInt())
                 put(Tabla_NombreProducto, nombreProducto)
                 put(Tabla_CategoriaProducto, categoria)
@@ -298,7 +300,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 put(Tabla_FotoProducto, foto)//NUEVO
             }
 
-            db.insert(Tabla_producto, null, valoresProducto)
+            val valoresProducto = arrayOf(idProducto.toString())
+
+            val whereClause = "ProductoID = ?"
+            db.update(Tabla_producto, ContentValues, whereClause, valoresProducto)
         }
     }
 
