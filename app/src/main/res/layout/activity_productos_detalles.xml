@@ -114,6 +114,13 @@
                 android:text="Eliminar" />
         </LinearLayout>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ProductoID"
+            android:visibility="invisible"/>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

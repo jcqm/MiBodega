@@ -167,6 +167,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     //PARA LISTAR, primero defino el modelo que quiero usar, con las variable que entraran
     data class Productos(
+        val IdProducto: Int,
         val nombreProducto: String,
         val CategoriaProducto: String,
         val PrecioProducto: Float,
@@ -181,12 +182,14 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val db = this.readableDatabase
 
         val consulta = db.rawQuery(
-            "SELECT DISTINCT $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto,$Tabla_StockProducto, $Tabla_FotoProducto FROM $Tabla_producto",
+            "SELECT DISTINCT $Tabla_ProductoID, $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto,$Tabla_StockProducto, $Tabla_FotoProducto FROM $Tabla_producto",
             null
         )
 
         if (consulta.moveToFirst()) {
             do {
+                val idProducto=
+                    consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_ProductoID))
                 val nombreProducto =
                     consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreProducto))
                 val CategoriaProducto =
@@ -199,6 +202,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     consulta.getString(consulta.getColumnIndexOrThrow(Tabla_FotoProducto))
                 listaProducto.add(
                     Productos(
+                        idProducto,
                         nombreProducto,
                         CategoriaProducto,
                         PrecioProducto,

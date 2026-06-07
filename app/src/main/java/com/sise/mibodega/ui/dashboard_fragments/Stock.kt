@@ -66,6 +66,7 @@ class Stock : Fragment() {
             // Creo el Intent apuntando a la actividad de detalles
             val intent = Intent(requireContext(), Productos_detalles::class.java)
 
+            intent.putExtra("idProducto",productoSeleccionado.IdProducto)
             intent.putExtra("nombreProducto", productoSeleccionado.nombreProducto)
             intent.putExtra("CategoriaProducto", productoSeleccionado.CategoriaProducto)
             intent.putExtra("PrecioProducto", productoSeleccionado.PrecioProducto)

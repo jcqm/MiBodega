@@ -25,6 +25,7 @@ class Productos_detalles : AppCompatActivity() {
     private lateinit var imgImagenDetalleProducto: ImageView
     private lateinit var btnGuardarEditar: Button
     private lateinit var btnEliminar: Button
+    private lateinit var ProductoID: EditText
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,7 @@ class Productos_detalles : AppCompatActivity() {
         imgImagenDetalleProducto = findViewById<ImageView>(R.id.imgImagenDetallesProducto)
         btnGuardarEditar = findViewById<Button>(R.id.btnGuardarCambiosProducto)
         btnEliminar = findViewById<Button>(R.id.btnEliminar)
+        ProductoID = findViewById<EditText>(R.id.ProductoID)
 
         ///////////////////////////Spinner de por mientras//////////////////////////////////////
         val Categoria = arrayOf(
@@ -65,6 +67,7 @@ class Productos_detalles : AppCompatActivity() {
 
         val intent = this.intent
         if (intent != null) {
+            val iDProducto = intent.getIntExtra("idProducto", 0)
             val nombreProducto = intent.getStringExtra("nombreProducto")
             val CategoriaProducto = intent.getStringExtra("CategoriaProducto")
             val precioProducto = intent.getFloatExtra("PrecioProducto", 0f)
@@ -78,10 +81,15 @@ class Productos_detalles : AppCompatActivity() {
             spCategoria.setSelection(posicionCategoria)
             txtCantidad.setText(stockProducto.toString())
             imgImagenDetalleProducto.setImageURI(FotoProducto?.toUri())
+            ProductoID.setText(iDProducto.toString())
+
 
         }
 
         btnGuardarEditar.setOnClickListener {
+
+
+            val idProductoString = ProductoID.text.toString().trim()
             val inputNombreProducto = txtNombre.text.toString().trim()
             val inputCategoria = spCategoria.selectedItem.toString().trim()
             val inputPrecioVentaString = txtPrecio.text.toString().trim()
@@ -94,12 +102,14 @@ class Productos_detalles : AppCompatActivity() {
             if (inputNombreProducto.isEmpty() || inputCategoria.isEmpty() || inputPrecioVentaString.isEmpty() || inputStockinicialString.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete los campos", Toast.LENGTH_SHORT).show()
             } else {
+
+                val idProductoInt = idProductoString.toInt()
                 val inputPrecioVenta = inputPrecioVentaString.toFloat()
                 val inputStockinicial = inputStockinicialString.toInt()
 
 
                 db.editar_producto(
-                    2,
+                    idProductoInt,
                     inputNombreProducto,
                     inputCategoria,
                     inputCodigoBarras,
