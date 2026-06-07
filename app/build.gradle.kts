@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.gridlayout)
     implementation(libs.material)
     implementation(libs.play.services.maps3d)
     testImplementation(libs.junit)

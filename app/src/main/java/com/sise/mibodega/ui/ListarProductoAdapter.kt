@@ -50,7 +50,7 @@ class ListarProductoAdapter(
         } else {
 
             // placeholdre por si no tiene foto
-            imgProducto.setImageResource(R.drawable.baseline_inventory_24)
+            imgProducto.setImageResource(R.drawable.baseline_insert_photo_24)
         }
 
         return vista

@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
 import java.io.File
@@ -76,6 +77,17 @@ class Productos_detalles : AppCompatActivity() {
             "Higiene y Cuidado Personal"
         )
 
+        val adapterCategoria = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            Categoria
+        )
+        adapterCategoria.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+        spCategoria.adapter = adapterCategoria
+
+
         ///////////////////////////FOTO//////////////////////////////////////
 
         //Nuevo con cameraX
@@ -95,15 +107,6 @@ class Productos_detalles : AppCompatActivity() {
         //////////////////////////////////////////////////////////////////////
 
 
-        val adapterCategoria = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            Categoria
-        )
-        adapterCategoria.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-        spCategoria.adapter = adapterCategoria
 
 
         val intent = this.intent
@@ -176,23 +179,33 @@ class Productos_detalles : AppCompatActivity() {
             val inputNombreProducto = txtNombre.text.toString().trim()
             val idProductoInt = idProductoString.toInt()
 
-            db.eliminar_producto(idProductoInt)
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Eliminar elemento")
+                .setMessage("¿Estás seguro de que deseas eliminar este elemento?")
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Eliminar") { dialog, _ ->
 
-            Toast.makeText(
-                this,
-                "Producto $inputNombreProducto eliminado",
-                Toast.LENGTH_SHORT
-            ).show()
 
-            val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
+                    db.eliminar_producto(idProductoInt)
 
+                    Toast.makeText(
+                        this,
+                        "Producto $inputNombreProducto eliminado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialog.dismiss()
+
+                    val intent = Intent(this, DashboardActivity::class.java)
+                    startActivity(intent)
+                }
+                .show()
         }
 
     }
 
     //FUNCIONES PARA LA CAMARA
-
     // Inicializa y usa la cameraX
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -205,7 +218,6 @@ class Productos_detalles : AppCompatActivity() {
                 .build()
                 .also { it.setSurfaceProvider(previewView.surfaceProvider) }
 
-            // CameraX Image Capture Use Case
             imageCapture = ImageCapture.Builder().build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA  // Select back camera

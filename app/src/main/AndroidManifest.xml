@@ -2,17 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Para poder acceder al almacenamiento en manifest -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--    Permiso de la camara-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Permiso de la camara -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-    <!--        android:maxSdkVersion="32"-->
-    <!--        tools:ignore="ScopedStorage" />-->
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiBodega">
         <activity
+            android:name=".ui.AgregarFiado"
+            android:exported="false" />
+        <activity
             android:name=".ui.Productos_detalles"
             android:exported="false" />
-
         <activity
             android:name=".ui.AgregarProducto"
             android:exported="false" />
@@ -36,7 +33,6 @@
         <activity
             android:name=".ui.LoginActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +49,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

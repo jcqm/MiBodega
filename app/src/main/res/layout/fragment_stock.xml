@@ -17,11 +17,14 @@
         android:scrollbarSize="10dp">
 
         <SearchView
-            android:id="@+id/searchview"
+            android:layout_marginTop="10dp"
+            android:id="@+id/barraBuscadoraProductos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:queryHint="Buscar producto..."
+            android:queryBackground="@color/bluegray"
             app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/bluegray"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +62,6 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1" />
-
 
 
         <Button

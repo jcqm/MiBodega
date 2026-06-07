@@ -299,7 +299,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 put(Tabla_CodigoBarras, codigoBarras)
                 put(Tabla_PrecioProducto, precio)
                 put(Tabla_StockProducto, stock)
-                put(Tabla_FotoProducto, foto)//NUEVO
+                put(Tabla_FotoProducto, foto)
             }
 
             val valoresProducto = arrayOf(idProducto.toString())
@@ -323,6 +323,71 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
     //BUSCAR
+
+    fun buscar_producto(nombreProducto: String): ArrayList<Productos> {
+        val listaProducto = ArrayList<Productos>()
+        this.readableDatabase.use { db ->
+            // el ? como place holder
+            val query =
+                "SELECT DISTINCT $Tabla_ProductoID, $Tabla_NombreProducto, $Tabla_CategoriaProducto, $Tabla_PrecioProducto, $Tabla_StockProducto, $Tabla_FotoProducto " +
+                        "FROM $Tabla_producto WHERE $Tabla_NombreProducto LIKE ?"
+
+            // use el % para que encuentra con las primeras palabras tambien
+            val argumentos = arrayOf("%$nombreProducto%")
+
+            val consulta = db.rawQuery(query, argumentos)
+
+            consulta.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        val id = cursor.getInt(cursor.getColumnIndexOrThrow(Tabla_ProductoID))
+                        val nombre =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Tabla_NombreProducto))
+                        val categoria =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Tabla_CategoriaProducto))
+                        val precio =
+                            cursor.getFloat(cursor.getColumnIndexOrThrow(Tabla_PrecioProducto))
+                        val stock = cursor.getInt(cursor.getColumnIndexOrThrow(Tabla_StockProducto))
+                        val foto =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Tabla_FotoProducto))
+
+                        listaProducto.add(
+                            Productos(id, nombre, categoria, precio, stock, foto)
+                        )
+                    } while (cursor.moveToNext())
+                }
+            }
+        }
+
+        return listaProducto
+    }
+
+    /////////////////// PARA FIADOS ////////////////
+
+    /// AGREGAR FIADOS
+
+    //INSERTAR FIADO//////
+    fun insertar_fiado(
+        nombreCliente: String,
+        montoDeuda: Float,
+        estadoFiado: String,
+        fechaFiado: String
+
+    ) {
+        writableDatabase.use { db ->
+
+            val valoresFiado = ContentValues().apply {
+                put(Tabla_NombreCliente, nombreCliente)
+                put(Tabla_MontoDeuda, montoDeuda)
+                put(Tabla_EstadoFiado, estadoFiado)
+                put(Tabla_FechaFiado, fechaFiado)
+            }
+
+            db.insert(Tabla_fiado, null, valoresFiado)
+        }
+    }
+
+
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
