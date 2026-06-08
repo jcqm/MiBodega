@@ -88,12 +88,11 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val crearFiado = """
         CREATE TABLE $Tabla_fiado (
             $Tabla_FiadoID INTEGER PRIMARY KEY AUTOINCREMENT,
-            $Tabla_VentaID INTEGER NOT NULL,
+            
             $Tabla_NombreCliente TEXT NOT NULL,
             $Tabla_MontoDeuda REAL NOT NULL,
             $Tabla_EstadoFiado TEXT NOT NULL,
-            $Tabla_FechaFiado TEXT NOT NULL,
-            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID)
+            $Tabla_FechaFiado TEXT NOT NULL
         )
     """.trimIndent()
         db.execSQL(crearFiado)
@@ -364,7 +363,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     /////////////////// PARA FIADOS ////////////////
 
-    /// AGREGAR FIADOS
+    //////////////////AGREGAR FIADOS //////////////////
 
     //INSERTAR FIADO//////
     fun insertar_fiado(
@@ -387,14 +386,72 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
 
+    //////////////////LISTAR FIADOS //////////////////
+    //PARA LISTAR, primero defino el modelo que quiero usar, con las variable que entraran
+    data class Fiados(
+        val IdFiado: Int,
+        val NombreCliente: String,
+        val MontoDeuda: Float,
+        val EstadoFiado: String,
+        val FechaFiado: String
 
+    )
+
+    //LISTAR/////
+    fun ListarFiado(): ArrayList<Fiados> {
+        val listaFiado = ArrayList<Fiados>()
+        val db = this.readableDatabase
+
+        val consulta = db.rawQuery(
+            "SELECT DISTINCT $Tabla_FiadoID, $Tabla_NombreCliente, $Tabla_MontoDeuda, $Tabla_EstadoFiado,$Tabla_FechaFiado FROM $Tabla_fiado",
+            null
+        )
+
+        if (consulta.moveToFirst()) {
+            do {
+                val IdFiado =
+                    consulta.getInt(consulta.getColumnIndexOrThrow(Tabla_FiadoID))
+                val NombreCliente =
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_NombreCliente))
+                val MontoDeuda =
+                    consulta.getFloat(consulta.getColumnIndexOrThrow(Tabla_MontoDeuda))
+                val EstadoFiado =
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_EstadoFiado))
+                val FechaFiado =
+                    consulta.getString(consulta.getColumnIndexOrThrow(Tabla_FechaFiado))
+                listaFiado.add(
+                    Fiados(
+                        IdFiado,
+                        NombreCliente,
+                        MontoDeuda,
+                        EstadoFiado,
+                        FechaFiado
+                    )
+                )
+            } while (consulta.moveToNext())
+        }
+        consulta.close()
+        db.close()
+
+        return listaFiado
+    }
+
+    //para que devuela el numero total de la deuda
+    fun contarFiado(): Cursor {
+        return readableDatabase.rawQuery("SELECT SUM(MontoDeuda) FROM $Tabla_fiado", null)
+    }
+
+    //para que devuela el numero total de personas que tiene deudas
+    fun contarPersonasConFiado(): Cursor {
+        return readableDatabase.rawQuery("SELECT COUNT(FiadoID) FROM $Tabla_fiado", null)
+    }
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 5
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"

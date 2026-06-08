@@ -69,6 +69,7 @@ class Stock : Fragment() {
         // para mostrar la catidad
         actualizarContadorTexto(productos.size)
 
+
         // Para usar el search view, esta primera parte es un escuchador para la barr
 
         barraBuscadora.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
