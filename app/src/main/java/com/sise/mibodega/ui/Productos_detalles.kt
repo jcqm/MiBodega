@@ -130,6 +130,7 @@ class Productos_detalles : AppCompatActivity() {
 
         }
 
+        /// EDITAR
         btnGuardarEditar.setOnClickListener {
 
 

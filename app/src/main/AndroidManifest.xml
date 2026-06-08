@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiBodega">
         <activity
+            android:name=".ui.Fiado_Detalles"
+            android:exported="false" />
+        <activity
             android:name=".ui.AgregarFiado"
             android:exported="false" />
         <activity

@@ -35,6 +35,8 @@ class ListarFiadoAdapter(
             fiado.FechaFiado
         vista.findViewById<TextView>(R.id.txtLista_FiadosDeuda).text =
             "S/. ${fiado.MontoDeuda}"
+        //Estado
+        vista.findViewById<TextView>(R.id.txtLista_FiadoEstado).text = fiado.EstadoFiado
 
         return vista
     }

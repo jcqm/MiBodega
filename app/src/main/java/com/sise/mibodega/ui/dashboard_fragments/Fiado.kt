@@ -15,6 +15,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
+import com.sise.mibodega.ui.Fiado_Detalles
 import com.sise.mibodega.ui.ListarFiadoAdapter
 import com.sise.mibodega.ui.ListarProductoAdapter
 import com.sise.mibodega.ui.Productos_detalles
@@ -83,8 +84,20 @@ class Fiado : Fragment() {
             val cantidad = cursorContarClientesDeudores.getString(0)
             txtCantidadDeClientes.text = cantidad
         }
-        //////////////////////////////////////////////////////
 
+        //////////////al dar click lo jala a una vista detallada donde puede elminar y editar////////////////////////////////////////
+        listaResultado.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val FiadoSeleccionado = fiado[position]
+
+            val intent = Intent(requireContext(), Fiado_Detalles::class.java).apply {
+                putExtra("idFiado", FiadoSeleccionado.IdFiado)
+                putExtra("NombreCliente", FiadoSeleccionado.NombreCliente)
+                putExtra("MontoDeuda", FiadoSeleccionado.MontoDeuda)
+                putExtra("Estado", FiadoSeleccionado.EstadoFiado)
+                putExtra("FechaFiado", FiadoSeleccionado.FechaFiado)
+            }
+            startActivity(intent)
+        }
 
 
         // Inflate the layout for this fragment

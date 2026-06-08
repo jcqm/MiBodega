@@ -99,6 +99,7 @@ class Stock : Fragment() {
             }
         })
 
+        // al dar click lo jala a una vista detallada donde puede elminar y editar
         listaResultado.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val productoSeleccionado = productos[position]
 
@@ -135,11 +136,6 @@ class Stock : Fragment() {
 //
 //            startActivity(intent)
 //        }
-
-
-
-
-
 
 
         ///////////// Mostrar cantidad////////////////

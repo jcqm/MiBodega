@@ -1,5 +1,6 @@
 package com.sise.mibodega.data;
 
+import android.R
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -438,12 +439,46 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     //para que devuela el numero total de la deuda
     fun contarFiado(): Cursor {
-        return readableDatabase.rawQuery("SELECT SUM(MontoDeuda) FROM $Tabla_fiado", null)
+        val estado = "Pendiente"
+        return readableDatabase.rawQuery(
+            "SELECT SUM(MontoDeuda) FROM $Tabla_fiado WHERE $Tabla_EstadoFiado LIKE ?",
+            arrayOf(estado)
+        )
     }
 
     //para que devuela el numero total de personas que tiene deudas
     fun contarPersonasConFiado(): Cursor {
-        return readableDatabase.rawQuery("SELECT COUNT(FiadoID) FROM $Tabla_fiado", null)
+        val estado = "Pendiente"
+        return readableDatabase.rawQuery(
+            "SELECT COUNT(FiadoID) FROM $Tabla_fiado WHERE $Tabla_EstadoFiado LIKE ?",
+            arrayOf(estado)
+        )
+    }
+
+    ///// EDITAR ///
+    fun editar_fiado(
+        idFiado: Int,
+        nombreCliente: String,
+        montoDeuda: Float,
+        estado: String,
+        fechaFiado: String
+
+    ) {
+        writableDatabase.use { db ->
+
+
+            val ContentValues = ContentValues().apply {
+                put(Tabla_NombreCliente, nombreCliente)
+                put(Tabla_MontoDeuda, montoDeuda)
+                put(Tabla_EstadoFiado, estado)
+                put(Tabla_FechaFiado, fechaFiado)
+            }
+
+            val valoresFiado = arrayOf(idFiado.toString())
+
+            val whereClause = "FiadoID = ?"
+            db.update(Tabla_fiado, ContentValues, whereClause, valoresFiado)
+        }
     }
 
 
