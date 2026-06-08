@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
 import java.time.LocalDate
@@ -114,6 +115,39 @@ class Fiado_Detalles : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        ////////////////////////////////// Eliminar ////////////////////////////////////////////////
+        btnEliminar.setOnClickListener {
+            val idFiadoString = FiadoID.text.toString().trim()
+            val inputCliente = txtEditarClienteFiado.text.toString().trim()
+            val idFiadoInt = idFiadoString.toInt()
+
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Eliminar elemento")
+                .setMessage("¿Estás seguro de que deseas eliminar este elemento?")
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Eliminar") { dialog, _ ->
+
+
+                    db.eliminar_fiado(idFiadoInt)
+
+                    Toast.makeText(
+                        this,
+                        "Producto $inputCliente eliminado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialog.dismiss()
+
+                    val intent = Intent(this, DashboardActivity::class.java)
+                    startActivity(intent)
+                }
+                .show()
+        }
+
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -175,6 +175,7 @@ class Productos_detalles : AppCompatActivity() {
             }
         }
 
+        // ELIMINAR //
         btnEliminar.setOnClickListener {
             val idProductoString = ProductoID.text.toString().trim()
             val inputNombreProducto = txtNombre.text.toString().trim()

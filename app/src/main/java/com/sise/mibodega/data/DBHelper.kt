@@ -481,6 +481,20 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
     }
 
+    ///////////////////////////////// Eliminar FIADOS /////////////////////////////////////////////////////
+    fun eliminar_fiado(
+        idFiado: Int,
+    ) {
+        writableDatabase.use { db ->
+
+            val valoresFiado = arrayOf(idFiado.toString())
+            val whereArgs = arrayOf(idFiado.toString())
+
+            val whereClause = "FiadoID = ?"
+            db.delete(Tabla_fiado, whereClause, whereArgs)
+        }
+    }
+
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
