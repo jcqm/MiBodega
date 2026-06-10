@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiBodega">
         <activity
+            android:name=".ui.AgregarProductosNuevaVenta"
+            android:exported="false" />
+        <activity
             android:name=".ui.NuevaVenta"
             android:exported="false" />
         <activity

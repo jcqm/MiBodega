@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.listitem.ListItemCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+
+        <ImageView
+            android:id="@+id/imgLista_ProductoImagen"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txtLista_ProductoNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/imgLista_ProductoImagen"
+            android:text="Nombre"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/txtLista_ProductoUnidades"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginStart="15dp"-->
+        <!--            android:layout_toEndOf="@id/txtLista_ProductoNombre"-->
+        <!--            android:text="Unidades"-->
+        <!--            android:textSize="16sp" />-->
+
+        <androidx.cardview.widget.CardView
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/txtLista_ProductoNombre"
+            android:id="@+id/txtLista_ProductoUnidades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnMas"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:textSize="10dp"
+                    android:text="+" />
+
+                <EditText
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:inputType="number" />
+
+                <Button
+                    android:id="@+id/btnMenos"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:text="+" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/txtLista_ProductoPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/txtLista_ProductoUnidades"
+            android:text="Precio"
+            android:textSize="16sp" />
+
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+
+</com.google.android.material.listitem.ListItemCardView>

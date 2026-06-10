@@ -40,25 +40,28 @@
             android:text="¿Qué vendiste?"
             android:textSize="20dp" />
 
-        <!--       -->
-        <LinearLayout
+        <SearchView
+            android:id="@+id/barraBuscadoraProductosNuevaVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:queryHint="Buscar producto..."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryBackground="@android:color/darker_gray"
+            >
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="+ Agregar producto" />
-        </LinearLayout>
+        </SearchView>
+
 
         <androidx.cardview.widget.CardView
-
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="500dp"
             android:layout_marginTop="20dp"
-            app:contentPaddingRight="20dp">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,13 +73,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textSize="20dp"
                     android:text="Productos"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
 
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="420dp"
+                    android:layout_height="380dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="20dp" />
 
@@ -93,8 +97,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="35dp"
-                    android:text="Total S/" />
+                    android:layout_marginTop="20dp"
+                    android:text="Total S/"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

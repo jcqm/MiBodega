@@ -17,6 +17,7 @@
         android:textSize="20sp" />
 
     <GridLayout
+        android:id="@+id/GridReportes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvSaludo"
@@ -25,7 +26,6 @@
         android:layout_marginRight="24dp"
         android:columnCount="2"
         android:rowCount="8">
-
 
         <!--    //Ventas hoy-->
         <androidx.cardview.widget.CardView
@@ -36,6 +36,7 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/bluegray"
             app:cardCornerRadius="15dp"
             app:cardElevation="10dp">
 
@@ -50,7 +51,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Ventas Hoy"
-                    android:textColor="@color/black"
                     android:textSize="18sp">
 
                 </TextView>
@@ -69,6 +69,7 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/bluegray"
             app:cardCornerRadius="15dp"
 
             app:cardElevation="10dp">
@@ -84,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Productos"
-                    android:textColor="@color/black"
                     android:textSize="18sp">
 
                 </TextView>
@@ -101,6 +101,7 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/bluegray"
             app:cardCornerRadius="15dp"
 
             app:cardElevation="10dp">
@@ -116,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Fiados pendientes"
-                    android:textColor="@color/black"
                     android:textSize="18sp">
 
                 </TextView>
@@ -131,6 +131,7 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/bluegray"
             app:cardCornerRadius="15dp"
 
             app:cardElevation="10dp">
@@ -146,153 +147,93 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Stock bajo"
-                    android:textColor="@color/black"
                     android:textSize="18sp">
 
                 </TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+    </GridLayout>
 
-        <!--     Nueva venta-->
-        <androidx.cardview.widget.CardView
+    <View
+        android:id="@+id/horizontal_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/GridReportes"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="24dp"
+        android:background="@android:color/darker_gray" />
+
+
+    <GridLayout
+        android:id="@+id/gridBotones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/horizontal_divider"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="24dp"
+        android:columnCount="2"
+        android:rowCount="8">
+
+        <!-- Nueva venta-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNuevaVenta"
             android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_row="3"
+            android:layout_height="80dp"
+            android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
-            app:cardCornerRadius="15dp"
+            android:elevation="10dp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="@android:integer/config_longAnimTime"
+            android:text="+ Nueva venta"
+            app:cornerRadius="20dp" />
 
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Nueva venta"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/baseline_add_24"></ImageView>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--     Agregar producto-->
-        <androidx.cardview.widget.CardView
+        <!-- Agregar producto-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNuevoProducto"
             android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_row="3"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
-            app:cardCornerRadius="15dp"
+            android:elevation="10dp"
+            android:text="+ Nuevo producto"
+            app:cornerRadius="20dp" />
 
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Agregar producto"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/baseline_inventory_24"></ImageView>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-
-        <!--     Fiados-->
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_row="4"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFiados"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
-            app:cardCornerRadius="15dp"
+            android:elevation="10dp"
+            android:text="+ Nuevo fiado"
+            app:cornerRadius="20dp" />
 
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Fiados"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/baseline_contacts_24"></ImageView>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--     Reporte del dia-->
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_row="4"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReporte"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
-            app:cardCornerRadius="15dp"
-
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Reporte del dia"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"></TextView>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/baseline_insights_24"></ImageView>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            android:elevation="10dp"
+            android:text="+ Reportes"
+            app:cornerRadius="20dp" />
 
 
     </GridLayout>
-
-
 </RelativeLayout>
+
+

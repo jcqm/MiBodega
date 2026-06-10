@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard_fragments.Stock">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,14 +16,14 @@
         android:scrollbarSize="10dp">
 
         <SearchView
-            android:layout_marginTop="10dp"
             android:id="@+id/barraBuscadoraProductos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Buscar producto..."
-            android:queryBackground="@color/bluegray"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
             android:background="@color/bluegray"
+            android:queryBackground="@color/bluegray"
+            android:queryHint="Buscar producto..."
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
