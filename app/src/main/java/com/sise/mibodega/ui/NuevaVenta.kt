@@ -28,13 +28,17 @@ class NuevaVenta : AppCompatActivity() {
 
         ////////////// LISTAR ////////////////////////////////////
 
+//        val productos = ArrayList<DBHelper.Productos>()
         val productos = ArrayList<DBHelper.Productos>()
         productos.addAll(dbHelper.ListarStock())
 
         val adapter = ListarNuevaVentaAdapter(this, productos)
         listaResultado.adapter = adapter
 
-        /////// contador ////
+        //// calcular total ///
+        ListarNuevaVentaAdapter(this, productos)
+
+
 
 
 

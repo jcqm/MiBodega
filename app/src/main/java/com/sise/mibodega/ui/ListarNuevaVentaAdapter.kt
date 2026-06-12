@@ -47,15 +47,17 @@ class ListarNuevaVentaAdapter(
         val minimo = 0
         val maximo = producto.StockProducto
         var contador = 0
+        var precioActualizado = 0.0f
+        var precio = producto.PrecioProducto
 
         btnMas = vista.findViewById<Button>(R.id.btnMas)
         btmMenos = vista.findViewById<Button>(R.id.btnMenos)
-        txtNumero = vista.findViewById<TextView>(R.id.txtNumero)
+//        txtNumero = vista.findViewById<TextView>(R.id.txtNumero)
+
         checkBox = vista.findViewById<CheckBox>(R.id.checkBox)
-
-
         vista.findViewById<TextView>(R.id.txtNombre_NuevaVenta).text = producto.nombreProducto
-        vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text = "S/. ${producto.PrecioProducto}"
+//        vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
+//            "S/. ${producto.PrecioProducto}"
 
         // se convierte la ruta a URI para mostrarla en el ImageView
         val imgProducto = vista.findViewById<ImageView>(R.id.imgLista_ProductoImagen)
@@ -69,9 +71,9 @@ class ListarNuevaVentaAdapter(
         }
 
         btnMas.setOnClickListener {
+            //para stock
             var numero = vista.findViewById<TextView>(R.id.txtNumero)
             var numeroActual = numero.text.toString()
-
             val numeroGuardadInt = numeroActual.toInt()
 
             if (numeroGuardadInt >= maximo) {
@@ -79,9 +81,13 @@ class ListarNuevaVentaAdapter(
                     .show()
             } else {
                 contador += 1
+                precioActualizado = (numeroGuardadInt + 1) * precio
+
+
                 vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
-                if (numeroGuardadInt > 0) {
-                }
+                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
+                    "S/. ${precioActualizado.toString()}"
+
             }
 
         }
@@ -89,8 +95,13 @@ class ListarNuevaVentaAdapter(
         btmMenos.setOnClickListener {
             var numero = vista.findViewById<TextView>(R.id.txtNumero)
             var numeroActual = numero.text.toString()
-
             val numeroGuardadInt = numeroActual.toInt()
+
+            // para precio
+
+            var precioBoton = vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta)
+            var precioActual = precioBoton.text.toString()
+            val precioGuardadoInt = precioActual.removeRange(0, 3).toFloat()
 
             if (numeroGuardadInt <= 0) {
                 Toast.makeText(context, "Seleccione un numero valido", Toast.LENGTH_SHORT)
@@ -98,6 +109,9 @@ class ListarNuevaVentaAdapter(
             } else {
                 contador -= 1
                 vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
+                precioActualizado = precioGuardadoInt - precio
+                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
+                    "S/. ${precioActualizado}"
 
             }
         }

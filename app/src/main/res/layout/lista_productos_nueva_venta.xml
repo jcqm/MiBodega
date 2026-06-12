@@ -21,7 +21,6 @@
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <!-- 1. El checkbox y el precio se alinean primero a la derecha -->
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
@@ -36,10 +35,9 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/checkBox"
-            android:text="Precio"
+            android:text="S/. 0.0"
             android:textSize="15sp" />
 
-        <!-- 2. El nombre ahora ocupa el espacio central disponible -->
         <TextView
             android:id="@+id/txtNombre_NuevaVenta"
             android:layout_width="match_parent"
@@ -52,7 +50,6 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- 3. El contador ahora se posiciona DEBAJO del nombre -->
         <androidx.cardview.widget.CardView
             android:id="@+id/txtLista_ProductoUnidades"
             android:layout_width="wrap_content"
