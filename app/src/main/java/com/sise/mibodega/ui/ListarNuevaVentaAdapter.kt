@@ -5,21 +5,24 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
+import java.text.FieldPosition
+import kotlin.math.max
+import kotlin.math.min
+
 
 class ListarNuevaVentaAdapter(
-    private val context: Context,
-    private val lista: ArrayList<DBHelper.Productos>
+    private val context: Context, private val lista: ArrayList<DBHelper.Productos>
 ) : BaseAdapter() {
-
-    // Diccionario para recordar cuántas unidades va seleccionando el usuario por cada ID de producto
-    private val cantidadesSeleccionadas = HashMap<Int, Int>()
 
     override fun getCount() = lista.size
 
@@ -27,78 +30,86 @@ class ListarNuevaVentaAdapter(
 
     override fun getItemId(position: Int) = position.toLong()
 
-    // Método público para que tu Activity obtenga la cantidad elegida de un producto específico
-    fun obtenerCantidad(productoId: Int): Int {
-        return cantidadesSeleccionadas[productoId] ?: 0
-    }
+    private lateinit var btnMas: Button
+    private lateinit var btmMenos: Button
+    private lateinit var txtNumero: TextView
+    private lateinit var checkBox: CheckBox
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
+        // si ya existe la vista se reutiliza
         val vista = convertView ?: LayoutInflater.from(context)
             .inflate(R.layout.lista_productos_nueva_venta, parent, false)
 
         val producto = lista[position]
 
-        // Usamos el ID del producto como clave, si no existe empezamos en 0
-        // Nota: Asegúrate de tener el campo id o _id en tu modelo. Si se llama diferente, cámbialo aquí.
-        val productoId = position // Como alternativa temporal usamos position, idealmente usa producto.idProducto
-        val cantidadActual = cantidadesSeleccionadas[productoId] ?: 0
+
+        val minimo = 0
+        val maximo = producto.StockProducto
+        var contador = 0
+
+        btnMas = vista.findViewById<Button>(R.id.btnMas)
+        btmMenos = vista.findViewById<Button>(R.id.btnMenos)
+        txtNumero = vista.findViewById<TextView>(R.id.txtNumero)
+        checkBox = vista.findViewById<CheckBox>(R.id.checkBox)
+
 
         vista.findViewById<TextView>(R.id.txtNombre_NuevaVenta).text = producto.nombreProducto
-
-        val txtNumero = vista.findViewById<TextView>(R.id.txtNumero)
-        txtNumero.text = cantidadActual.toString()
-
         vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text = "S/. ${producto.PrecioProducto}"
 
+        // se convierte la ruta a URI para mostrarla en el ImageView
         val imgProducto = vista.findViewById<ImageView>(R.id.imgLista_ProductoImagen)
+
         if (!producto.FotoProducto.isNullOrEmpty()) {
             imgProducto.setImageURI(Uri.parse(producto.FotoProducto))
         } else {
+
+            // placeholdre por si no tiene foto
             imgProducto.setImageResource(R.drawable.baseline_insert_photo_24)
         }
 
-        // CONTROLADOR DE LOS BOTONES + y -
-        val btnMas = vista.findViewById<Button>(R.id.btnMas)
-        val btnMenos = vista.findViewById<Button>(R.id.btnMenos)
-        val checkBox = vista.findViewById<CheckBox>(R.id.checkBox)
-
-        // Lógica botón Más (+)
         btnMas.setOnClickListener {
-            val actual = cantidadesSeleccionadas[productoId] ?: 0
-            if (actual < producto.StockProducto) { // Límite: No superar el stock
-                val nuevaCantidad = actual + 1
-                cantidadesSeleccionadas[productoId] = nuevaCantidad
-                txtNumero.text = nuevaCantidad.toString()
-                checkBox.isChecked = true // Activa el check si selecciona unidades
-            }
-        }
+            var numero = vista.findViewById<TextView>(R.id.txtNumero)
+            var numeroActual = numero.text.toString()
 
-        // Lógica botón Menos (-)
-        btnMenos.setOnClickListener {
-            val actual = cantidadesSeleccionadas[productoId] ?: 0
-            if (actual > 0) {
-                val nuevaCantidad = actual - 1
-                cantidadesSeleccionadas[productoId] = nuevaCantidad
-                txtNumero.text = nuevaCantidad.toString()
+            val numeroGuardadInt = numeroActual.toInt()
 
-                if (nuevaCantidad == 0) {
-                    checkBox.isChecked = false // Desmarca si llega a 0
+            if (numeroGuardadInt >= maximo) {
+                Toast.makeText(context, "Stock de $maximo alcanzado", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                contador += 1
+                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
+                if (numeroGuardadInt > 0) {
                 }
             }
+
         }
 
-        // Evento manual por si marcan/desmarcan el CheckBox directamente
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (!isChecked) {
-                cantidadesSeleccionadas[productoId] = 0
-                txtNumero.text = "0"
-            } else if ((cantidadesSeleccionadas[productoId] ?: 0) == 0 && producto.StockProducto > 0) {
-                cantidadesSeleccionadas[productoId] = 1
-                txtNumero.text = "1"
+        btmMenos.setOnClickListener {
+            var numero = vista.findViewById<TextView>(R.id.txtNumero)
+            var numeroActual = numero.text.toString()
+
+            val numeroGuardadInt = numeroActual.toInt()
+
+            if (numeroGuardadInt <= 0) {
+                Toast.makeText(context, "Seleccione un numero valido", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                contador -= 1
+                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
+
             }
         }
+
+
+
+
+
+
 
         return vista
     }
+
+
 }
