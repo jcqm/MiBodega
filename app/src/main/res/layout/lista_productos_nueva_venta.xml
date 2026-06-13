@@ -7,107 +7,116 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgLista_ProductoImagen"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true" />
-
-        <TextView
-            android:id="@+id/txtPrecio_NuevaVenta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@id/checkBox"
-            android:text="S/. 0.0"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/txtNombre_NuevaVenta"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/txtPrecio_NuevaVenta"
-            android:layout_toEndOf="@id/imgLista_ProductoImagen"
-            android:text="Nombre"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:padding="10dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/txtLista_ProductoUnidades"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtNombre_NuevaVenta"
-            android:layout_toEndOf="@id/imgLista_ProductoImagen"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true">
+            <ImageView
+                android:id="@+id/imgLista_ProductoImagen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
 
-            <LinearLayout
+            <CheckBox
+                android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnMenos"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:padding="0dp"
-                    android:text="-"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtPrecio_NuevaVenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/checkBox"
+                android:text="S/. 0.0"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txtNumero"
+            <TextView
+                android:id="@+id/txtNombre_NuevaVenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/txtPrecio_NuevaVenta"
+                android:layout_toEndOf="@id/imgLista_ProductoImagen"
+                android:text="Nombre"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/txtLista_ProductoUnidades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtNombre_NuevaVenta"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/imgLista_ProductoImagen"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minWidth="20dp"
-                    android:maxLength="10"
-                    android:inputType="number"
-                    android:text="0"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnMas"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:padding="0dp"
-                    android:text="+"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMenos"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        android:text="-"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/txtNumero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:minWidth="20dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-    </RelativeLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMas"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        android:text="+"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
 </com.google.android.material.listitem.ListItemCardView>
 

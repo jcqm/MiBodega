@@ -172,20 +172,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val CategoriaProducto: String,
         val PrecioProducto: Float,
         val StockProducto: Int,
-        val FotoProducto: String // nuevo
+        val FotoProducto: String, // nuevo
+        val Seleccion: Int = 0
 
     )
 
-    data class ProductosNuevoProducto(
-        val IdProducto: Int,
-        val nombreProducto: String,
-        val CategoriaProducto: String,
-        val PrecioProducto: Float,
-        val StockProducto: Int,
-        val FotoProducto: String,
-        val seleccionado: Boolean
 
-    )
 
     //Creo la funcion que devuelva una array list
     fun ListarStock(): ArrayList<Productos> {
