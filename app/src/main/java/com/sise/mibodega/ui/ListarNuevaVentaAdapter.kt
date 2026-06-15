@@ -1,172 +1,109 @@
 package com.sise.mibodega.ui
 
-import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
-import java.text.FieldPosition
-import kotlin.math.max
-import kotlin.math.min
+import androidx.recyclerview.widget.RecyclerView
 
+interface OnItemClickListener {
+    fun onButtonClick(position: Int, esIncremento: Boolean)
+}
 
 class ListarNuevaVentaAdapter(
-    private val context: Context, private val lista: ArrayList<DBHelper.Productos>
-) : BaseAdapter() {
+    private val dataSet: ArrayList<DBHelper.Productos>,
+    private val onButtonClick: OnItemClickListener
+) : RecyclerView.Adapter<ListarNuevaVentaAdapter.ViewHolder>() {
 
-    override fun getCount() = lista.size
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtNombre_NuevaVenta: TextView = view.findViewById(R.id.txtNombre_NuevaVenta)
+        val txtPrecio_NuevaVenta: TextView = view.findViewById(R.id.txtPrecio_NuevaVenta)
+        val txtNumero: TextView = view.findViewById(R.id.txtNumero)
+        val btnMas: Button = view.findViewById(R.id.btnMas)
+        val btnMenos: Button = view.findViewById(R.id.btnMenos)
+        val imgLista_ProductoImagen: ImageView = view.findViewById(R.id.imgLista_ProductoImagen)
 
-    override fun getItem(position: Int) = lista[position]
+        init {
+            // boton mas
+            btnMas.setOnClickListener {
+                val posicion = bindingAdapterPosition
+                if (posicion != RecyclerView.NO_POSITION) {
+                    val producto = dataSet[posicion]
 
-    override fun getItemId(position: Int) = position.toLong()
+                    // Verificamos si aún hay stock disponible para agregar
+                    if (producto.cantidadSeleccionada < producto.StockProducto) {
+                        producto.cantidadSeleccionada++
+                        notifyItemChanged(posicion)
+                        onButtonClick.onButtonClick(posicion, true)
 
-    private lateinit var btnMas: Button
-    private lateinit var btmMenos: Button
-    private lateinit var txtNumero: TextView
-    private lateinit var checkBox: CheckBox
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+                    } else {
+                        Toast.makeText(
+                            view.context,
+                            "Stock máximo alcanzado (${producto.StockProducto})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
 
-        // si ya existe la vista se reutiliza
-        val vista = convertView ?: LayoutInflater.from(context)
-            .inflate(R.layout.lista_productos_nueva_venta, parent, false)
+            // boton menos
+            btnMenos.setOnClickListener {
+                val posicion = bindingAdapterPosition
+                if (posicion != RecyclerView.NO_POSITION) {
+                    val producto = dataSet[posicion]
 
-        val producto = lista[position]
+                    if (producto.cantidadSeleccionada > 0) {
+                        producto.cantidadSeleccionada--
+                        notifyItemChanged(posicion)
+                        onButtonClick.onButtonClick(posicion, false)
 
-        val maximo = producto.StockProducto
-        var contador = 0
-        var precioActualizado = 0.0f
-        var precio = producto.PrecioProducto
+                    } else {
+                        Toast.makeText(
+                            view.context,
+                            "Seleccione una cantidad correcta",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        }
 
-        btnMas = vista.findViewById<Button>(R.id.btnMas)
-        btmMenos = vista.findViewById<Button>(R.id.btnMenos)
-        txtNumero = vista.findViewById<TextView>(R.id.txtNumero)
-        checkBox = vista.findViewById<CheckBox>(R.id.checkBox)
-        vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
-            "S/. ${producto.PrecioProducto}"
 
-        // se convierte la ruta a URI para mostrarla en el ImageView
-        val imgProducto = vista.findViewById<ImageView>(R.id.imgLista_ProductoImagen)
+    }
 
-        if (!producto.FotoProducto.isNullOrEmpty()) {
-            imgProducto.setImageURI(Uri.parse(producto.FotoProducto))
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.lista_productos_nueva_venta, viewGroup, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        val productoActual = dataSet[position]
+        val precioProProducto = productoActual.PrecioProducto * productoActual.cantidadSeleccionada
+
+        viewHolder.txtNombre_NuevaVenta.text = productoActual.nombreProducto
+        viewHolder.txtPrecio_NuevaVenta.text = "S/. " + precioProProducto.toString()
+
+        viewHolder.txtNumero.text = productoActual.cantidadSeleccionada.toString()
+
+        if (!productoActual.FotoProducto.isNullOrEmpty()) {
+            viewHolder.imgLista_ProductoImagen.setImageURI(Uri.parse(productoActual.FotoProducto))
         } else {
-
-            // placeholdre por si no tiene foto
-            imgProducto.setImageResource(R.drawable.baseline_insert_photo_24)
+            viewHolder.imgLista_ProductoImagen.setImageResource(R.drawable.baseline_insert_photo_24)
         }
 
-//        btnMas.setOnClickListener {
-//            //para stock
-//            var numero = vista.findViewById<TextView>(R.id.txtNumero)
-//            var numeroActual = numero.text.toString()
-//            val numeroGuardadInt = numeroActual.toInt()
-//
-//            if (numeroGuardadInt >= maximo) {
-//                Toast.makeText(context, "Stock de $maximo alcanzado", Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                contador += 1
-//                precioActualizado = (numeroGuardadInt + 1) * precio
-//
-//
-//                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
-//                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
-//                    "S/. ${precioActualizado.toString()}"
-//
-//            }
-//
-//        }
-
-        btnMas.setOnClickListener {
-            //para stock
-            var numero = vista.findViewById<TextView>(R.id.txtNumero)
-            var numeroActual = numero.text.toString()
-            val numeroGuardadInt = numeroActual.toInt()
-
-            if (numeroGuardadInt >= maximo) {
-                Toast.makeText(context, "Stock de $maximo alcanzado", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                contador += 1
-                precioActualizado = (numeroGuardadInt + 1) * precio
-
-
-                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
-                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
-                    "S/. ${precioActualizado.toString()}"
-
-            }
-
-        }
-
-
-//        btmMenos.setOnClickListener {
-//            var numero = vista.findViewById<TextView>(R.id.txtNumero)
-//            var numeroActual = numero.text.toString()
-//            val numeroGuardadInt = numeroActual.toInt()
-//
-//            // para precio
-//
-//            var precioBoton = vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta)
-//            var precioActual = precioBoton.text.toString()
-//            val precioGuardadoInt = precioActual.removeRange(0, 3).toFloat()
-//
-//            if (numeroGuardadInt <= 0) {
-//                Toast.makeText(context, "Seleccione un numero valido", Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                contador -= 1
-//                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
-//                precioActualizado = precioGuardadoInt - precio
-//                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
-//                    "S/. ${precioActualizado}"
-//
-//            }
-//        }
-
-        btmMenos.setOnClickListener {
-            var numero = vista.findViewById<TextView>(R.id.txtNumero)
-            var numeroActual = numero.text.toString()
-            val numeroGuardadInt = numeroActual.toInt()
-
-            // para precio
-
-            var precioBoton = vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta)
-            var precioActual = precioBoton.text.toString()
-            val precioGuardadoInt = precioActual.removeRange(0, 3).toFloat()
-
-            if (numeroGuardadInt <= 0) {
-                Toast.makeText(context, "Seleccione un numero valido", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                contador -= 1
-                vista.findViewById<TextView>(R.id.txtNumero).text = contador.toString()
-                precioActualizado = precioGuardadoInt - precio
-                vista.findViewById<TextView>(R.id.txtPrecio_NuevaVenta).text =
-                    "S/. ${precioActualizado}"
-
-            }
-        }
-
-
-
-
-
-
-
-        return vista
     }
 
 
+
+
+    override fun getItemCount() = dataSet.size
 }
+

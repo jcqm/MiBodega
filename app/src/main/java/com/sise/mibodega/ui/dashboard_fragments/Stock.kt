@@ -70,8 +70,7 @@ class Stock : Fragment() {
         actualizarContadorTexto(productos.size)
 
 
-        // Para usar el search view, esta primera parte es un escuchador para la barr
-
+        // Para usar el search view, esta primera parte es un escuchador para la barra de busqueda
         barraBuscadora.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 actualizarLista(query.orEmpty())
@@ -113,31 +112,6 @@ class Stock : Fragment() {
             }
             startActivity(intent)
         }
-
-        // ANTIGUO, LO DEJO AQUI POR SI ACASO LO NECESITO
-        //        val productos = dbHelper.ListarStock()
-//
-//        val adapter = ListarProductoAdapter(requireContext(), productos)
-//        listaResultado.adapter = adapter
-//
-//        listaResultado.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-//            // Obtener el producto  usando la posición seleccionada
-//            val productoSeleccionado = productos[position]
-//
-//            // Creo el Intent apuntando a la actividad de detalles
-//            val intent = Intent(requireContext(), Productos_detalles::class.java)
-//
-//            intent.putExtra("idProducto", productoSeleccionado.IdProducto)
-//            intent.putExtra("nombreProducto", productoSeleccionado.nombreProducto)
-//            intent.putExtra("CategoriaProducto", productoSeleccionado.CategoriaProducto)
-//            intent.putExtra("PrecioProducto", productoSeleccionado.PrecioProducto)
-//            intent.putExtra("StockProducto", productoSeleccionado.StockProducto)
-//            intent.putExtra("FotoProducto", productoSeleccionado.FotoProducto)
-//
-//            startActivity(intent)
-//        }
-
-
         ///////////// Mostrar cantidad////////////////
         val cursorCantidad = dbHelper.contarStock()
 

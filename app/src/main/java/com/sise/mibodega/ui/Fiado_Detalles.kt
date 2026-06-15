@@ -152,7 +152,7 @@ class Fiado_Detalles : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fechaActual(): LocalDate? {
-        // 1. Get the current local date
+        // sacar la hora actual
         val fecha = LocalDate.now()
 
         return fecha

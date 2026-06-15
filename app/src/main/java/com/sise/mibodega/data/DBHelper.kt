@@ -170,10 +170,11 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val IdProducto: Int,
         val nombreProducto: String,
         val CategoriaProducto: String,
-        val PrecioProducto: Float,
+        var PrecioProducto: Float,
         val StockProducto: Int,
-        val FotoProducto: String, // nuevo
-        val Seleccion: Int = 0
+        val FotoProducto: String,
+        var cantidadSeleccionada: Int = 0, // Para contar la cantidad de items seleccionados en la venta
+        var totalVendido: Float = 0.0f // para poder calcular el valor total vendido
 
     )
 
@@ -284,7 +285,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         codigoBarras: String,
         precio: Float,
         stock: Int,
-        foto: String //NUEVO
+        foto: String,
 
     ) {
         writableDatabase.use { db ->
@@ -497,6 +498,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             db.delete(Tabla_fiado, whereClause, whereArgs)
         }
     }
+
+
+    ///// VENTAS /////////
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
