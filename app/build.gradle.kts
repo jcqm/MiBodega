@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.recyclerview.selection)
     implementation(libs.material)
     implementation(libs.play.services.maps3d)
     testImplementation(libs.junit)

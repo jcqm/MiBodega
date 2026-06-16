@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps3d.model.popoverStyle
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
 import org.w3c.dom.Text
+import com.sise.mibodega.ui.ListarNuevaVentaAdapter
 
 class NuevaVenta : AppCompatActivity(), OnItemClickListener {
 
@@ -28,37 +32,31 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         ////////////// LISTAR ////////////////////////////////////
         val productos = ArrayList<DBHelper.Productos>()
         productos.addAll(dbHelper.ListarStock())
-
         val recyclerView: RecyclerView = findViewById(R.id.listaResultado)
 
         val adapter = ListarNuevaVentaAdapter(productos, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        val intent =  this.intent
-        if (intent != null){
-            val nombreProducto = intent.getStringExtra("txtNombre_NuevaVenta")
-            val precio = intent.getFloatExtra("txtNombre_NuevaVenta",0f)
-            val cantidadSeleccionada = intent.getIntExtra("txtNumero",0)
-
-            btnListo.setOnClickListener {
-                var calculoTotal = 0.0f
-                //calcular el precio por la cantidad de todos los items, no solo de uno
-                calculoTotal = cantidadSeleccionada * precio
-                txtTotalNuevaVenta.setText(calculoTotal.toString())
-                //identificar en donde esta cada valor
-                //devolver y poder usarlo fuera del adapter para usar en la vista principal
-                //
-
-
-            }
-        }
-
-
+        listaProductos = productos
+        calcular_venta()
 
     }
 
     override fun onButtonClick(position: Int, esIncremento: Boolean) {
+        calcular_venta()
+    }
 
+    fun calcular_venta(): Float {
+        var total = 0.0f
+
+
+        for (producto in listaProductos) {
+            total = producto.cantidadSeleccionada * producto.PrecioProducto
+            txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
+
+        }
+
+        return total
     }
 }

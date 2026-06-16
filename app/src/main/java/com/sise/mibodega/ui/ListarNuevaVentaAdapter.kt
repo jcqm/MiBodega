@@ -22,7 +22,7 @@ class ListarNuevaVentaAdapter(
 ) : RecyclerView.Adapter<ListarNuevaVentaAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val txtNombre_NuevaVenta: TextView = view.findViewById(R.id.txtNombre_NuevaVenta)
+        val txtNombreNuevaVenta: TextView = view.findViewById(R.id.txtNombre_NuevaVenta)
         val txtPrecio_NuevaVenta: TextView = view.findViewById(R.id.txtPrecio_NuevaVenta)
         val txtNumero: TextView = view.findViewById(R.id.txtNumero)
         val btnMas: Button = view.findViewById(R.id.btnMas)
@@ -88,7 +88,7 @@ class ListarNuevaVentaAdapter(
         val productoActual = dataSet[position]
         val precioProProducto = productoActual.PrecioProducto * productoActual.cantidadSeleccionada
 
-        viewHolder.txtNombre_NuevaVenta.text = productoActual.nombreProducto
+        viewHolder.txtNombreNuevaVenta.text = productoActual.nombreProducto
         viewHolder.txtPrecio_NuevaVenta.text = "S/. " + precioProProducto.toString()
 
         viewHolder.txtNumero.text = productoActual.cantidadSeleccionada.toString()
@@ -100,8 +100,6 @@ class ListarNuevaVentaAdapter(
         }
 
     }
-
-
 
 
     override fun getItemCount() = dataSet.size
