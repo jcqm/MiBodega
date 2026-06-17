@@ -38,25 +38,40 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
+
         listaProductos = productos
-        calcular_venta()
 
     }
 
     override fun onButtonClick(position: Int, esIncremento: Boolean) {
-        calcular_venta()
+
+        calcularVenta()
     }
 
-    fun calcular_venta(): Float {
-        var total = 0.0f
 
+
+
+
+    var totalPorProducto = 0.0f
+    var total = 0.0f
+    fun calcularVenta(): Float {
 
         for (producto in listaProductos) {
-            total = producto.cantidadSeleccionada * producto.PrecioProducto
-            txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
-
+            if (producto.cantidadSeleccionada > 0){
+                totalPorProducto = producto.cantidadSeleccionada * producto.PrecioProducto
+            }
         }
 
+
+        total += totalPorProducto
+        txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
         return total
     }
+
+
+
+
+
+
+
 }
