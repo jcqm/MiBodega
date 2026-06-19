@@ -107,7 +107,7 @@ class Fiado_Detalles : AppCompatActivity() {
                 )
                 Toast.makeText(
                     this,
-                    "Producto $inputNombreCliente editado",
+                    "Fiado $inputNombreCliente editado",
                     Toast.LENGTH_SHORT
                 ).show()
 

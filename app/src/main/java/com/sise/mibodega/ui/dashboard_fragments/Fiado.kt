@@ -100,7 +100,7 @@ class Fiado : Fragment() {
         }
 
 
-        // Inflate the layout for this fragment
+        // inflar layout
         return view
     }
 
