@@ -47,6 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtVentasHoy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -81,6 +82,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtMostrarProductos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -113,11 +115,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtFiadosPendientes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Fiados pendientes"
-                    android:textSize="18sp">
+                    android:textSize="15sp">
 
                 </TextView>
             </LinearLayout>
@@ -147,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Stock bajo"
+                    android:id="@+id/txtStockBajo"
                     android:textSize="18sp">
 
                 </TextView>

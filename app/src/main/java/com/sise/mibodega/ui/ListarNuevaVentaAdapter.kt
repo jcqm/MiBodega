@@ -88,11 +88,9 @@ class ListarNuevaVentaAdapter(
         val productoActual = dataSet[position]
         val precioProProducto = productoActual.PrecioProducto * productoActual.cantidadSeleccionada
 
-        //nuevo
-        productoActual.totalVendido = precioProProducto
-
         viewHolder.txtNombreNuevaVenta.text = productoActual.nombreProducto
         viewHolder.txtPrecio_NuevaVenta.text = "S/. " + precioProProducto.toString()
+        productoActual.totalVendido = precioProProducto
 
 
         viewHolder.txtNumero.text = productoActual.cantidadSeleccionada.toString()

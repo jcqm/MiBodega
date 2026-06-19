@@ -17,6 +17,12 @@ class Home : Fragment() {
     private lateinit var saludo: TextView
 
     private lateinit var btnNuevaVenta: Button
+    private lateinit var txtVentasHome: TextView
+    private lateinit var txtMostrarStock: TextView
+    private lateinit var txtFiadosPendientes: TextView
+    private lateinit var txtStockBajo: TextView
+
+
     private lateinit var btnAgregarProducto: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +43,38 @@ class Home : Fragment() {
         saludo = view.findViewById(R.id.tvSaludo)
         dbHelper = DBHelper(requireContext(), null)
         btnNuevaVenta = view.findViewById<Button>(R.id.btnNuevaVenta)
+        txtVentasHome = view.findViewById<TextView>(R.id.txtVentasHoy)
+        txtMostrarStock = view.findViewById<TextView>(R.id.txtMostrarProductos)
+        txtFiadosPendientes = view.findViewById<TextView>(R.id.txtFiadosPendientes)
+        txtStockBajo = view.findViewById<TextView>(R.id.txtStockBajo)
 
         // obtener datos
         val cursor = dbHelper.mostrarNombre()
+
+        // mostrar stock
+        val cursorCantidadStock = dbHelper.contarStock()
+
+        if (cursorCantidadStock.moveToFirst()) {
+            val cantidad = cursorCantidadStock.getString(0)
+            txtMostrarStock.text = "Total stock: " + cantidad
+        }
+        // mostrar fiados pendiente
+        val cursorCantidadFiadoPendiente = dbHelper.contarPersonasConFiado()
+
+        if (cursorCantidadFiadoPendiente.moveToFirst()) {
+            val cantidad = cursorCantidadFiadoPendiente.getString(0)
+            txtFiadosPendientes.text = "Fiados pendientes: " + cantidad
+        }
+
+        // Stock bajo
+        val cursorStockBajo = dbHelper.contarStockBajo()
+
+        if (cursorStockBajo.moveToFirst()) {
+            val cantidad = cursorStockBajo.getString(0)
+            txtStockBajo.text = "Stock Bajo: " + cantidad
+        }
+
+
 
         if (cursor.moveToFirst()) {
             val nombre = cursor.getString(0)

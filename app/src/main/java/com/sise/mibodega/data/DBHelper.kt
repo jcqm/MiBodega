@@ -144,6 +144,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return readableDatabase.rawQuery("SELECT $Tabla_Usuario_Nombres FROM $Tabla_usuario", null)
     }
 
+
     //Una vez el usuario se haya registrado, quiero que que ya no aparezca el login tomando en cuenta si hay un usuario ya creado
     fun ExisteUsuario(): Boolean {
         val db = this.readableDatabase
@@ -165,6 +166,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return readableDatabase.rawQuery("SELECT SUM(Stock) FROM $Tabla_producto", null)
     }
 
+    // Para saber que stock esta bajo
+    fun contarStockBajo(): Cursor {
+        return readableDatabase.rawQuery("SELECT COUNT(Stock) FROM $Tabla_producto WHERE $Tabla_StockProducto < 5",null)
+    }
+
+
     //PARA LISTAR, primero defino el modelo que quiero usar, con las variable que entraran
     data class Productos(
         val IdProducto: Int,
@@ -174,10 +181,9 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val StockProducto: Int,
         val FotoProducto: String,
         var cantidadSeleccionada: Int = 0, // Para contar la cantidad de items seleccionados en la venta
-        var totalVendido: Float = 0.0f // para poder calcular el valor total vendido
-
+        var totalVendido: Float = 0.0f, // para poder calcular el valor total vendido
+        var seleccionada: Boolean = false // quiero saber cuando algo se selecciona, es decir si lo uso
     )
-
 
 
     //Creo la funcion que devuelva una array list
@@ -287,7 +293,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         stock: Int,
         foto: String,
 
-    ) {
+        ) {
         writableDatabase.use { db ->
 
             //Sacar id de tienda
@@ -368,7 +374,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     /////////////////// PARA FIADOS ////////////////
 
-    //////////////////AGREGAR FIADOS //////////////////
+    /// Contar cuantos fiados pendientes
+
 
     //INSERTAR FIADO//////
     fun insertar_fiado(

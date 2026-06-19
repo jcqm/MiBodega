@@ -33,44 +33,31 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         val productos = ArrayList<DBHelper.Productos>()
         productos.addAll(dbHelper.ListarStock())
         val recyclerView: RecyclerView = findViewById(R.id.listaResultado)
-
         val adapter = ListarNuevaVentaAdapter(productos, this)
+        listaProductos = productos
+        calcularResultado()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
 
-        listaProductos = productos
-
     }
 
     override fun onButtonClick(position: Int, esIncremento: Boolean) {
-
-        calcularVenta()
+        calcularResultado()
     }
 
 
+    fun calcularResultado(): Float {
+        var total = 0.0f
 
-
-
-    var totalPorProducto = 0.0f
-    var total = 0.0f
-    fun calcularVenta(): Float {
-
-        for (producto in listaProductos) {
-            if (producto.cantidadSeleccionada > 0){
-                totalPorProducto = producto.cantidadSeleccionada * producto.PrecioProducto
-            }
+        for (totalProducto in listaProductos) {
+            val totalIndividual = totalProducto.totalVendido
+            total += totalIndividual
         }
 
-
-        total += totalPorProducto
         txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
         return total
     }
-
-
-
-
 
 
 
