@@ -130,7 +130,6 @@ class Stock : Fragment() {
 
             startActivity(intent)
         }
-
         return view
     }
 

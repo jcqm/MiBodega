@@ -181,8 +181,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val StockProducto: Int,
         val FotoProducto: String,
         var cantidadSeleccionada: Int = 0, // Para contar la cantidad de items seleccionados en la venta
-        var totalVendido: Float = 0.0f, // para poder calcular el valor total vendido
-        var seleccionada: Boolean = false // quiero saber cuando algo se selecciona, es decir si lo uso
+        var totalVendido: Float = 0.0f // para poder calcular el valor total vendido
     )
 
 

@@ -56,14 +56,14 @@ class Home : Fragment() {
 
         if (cursorCantidadStock.moveToFirst()) {
             val cantidad = cursorCantidadStock.getString(0)
-            txtMostrarStock.text = "Total stock: " + cantidad
+            txtMostrarStock.text = cantidad
         }
         // mostrar fiados pendiente
         val cursorCantidadFiadoPendiente = dbHelper.contarPersonasConFiado()
 
         if (cursorCantidadFiadoPendiente.moveToFirst()) {
             val cantidad = cursorCantidadFiadoPendiente.getString(0)
-            txtFiadosPendientes.text = "Fiados pendientes: " + cantidad
+            txtFiadosPendientes.text = cantidad
         }
 
         // Stock bajo
@@ -71,7 +71,7 @@ class Home : Fragment() {
 
         if (cursorStockBajo.moveToFirst()) {
             val cantidad = cursorStockBajo.getString(0)
-            txtStockBajo.text = "Stock Bajo: " + cantidad
+            txtStockBajo.text = cantidad
         }
 
 

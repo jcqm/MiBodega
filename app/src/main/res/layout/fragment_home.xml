@@ -47,13 +47,21 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtVentasHoy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Ventas Hoy"
                     android:textSize="18sp">
+                </TextView>
 
+                <TextView
+                    android:id="@+id/txtVentasHoy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Numero"
+                    android:textSize="18sp"
+                    android:textStyle="bold">
                 </TextView>
 
 
@@ -82,14 +90,20 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Total Productos"
+                    android:textSize="18sp"></TextView>
+
+                <TextView
                     android:id="@+id/txtMostrarProductos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Productos"
-                    android:textSize="18sp">
-
-                </TextView>
+                    android:text="Numero"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -115,14 +129,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtFiadosPendientes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Fiados pendientes"
-                    android:textSize="15sp">
+                    android:textSize="18sp"></TextView>
 
-                </TextView>
+                <TextView
+                    android:id="@+id/txtFiadosPendientes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Numero"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <!--     Stock bajo-->
@@ -150,10 +170,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Stock bajo"
-                    android:id="@+id/txtStockBajo"
-                    android:textSize="18sp">
+                    android:textSize="18sp"></TextView>
 
-                </TextView>
+                <TextView
+                    android:id="@+id/txtStockBajo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+
+                    android:text="Numero"
+                    android:textSize="18sp"
+                    android:textStyle="bold"></TextView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>
