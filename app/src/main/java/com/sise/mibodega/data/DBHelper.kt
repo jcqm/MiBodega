@@ -168,7 +168,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     // Para saber que stock esta bajo
     fun contarStockBajo(): Cursor {
-        return readableDatabase.rawQuery("SELECT COUNT(Stock) FROM $Tabla_producto WHERE $Tabla_StockProducto < 5",null)
+        return readableDatabase.rawQuery(
+            "SELECT COUNT(Stock) FROM $Tabla_producto WHERE $Tabla_StockProducto < 5",
+            null
+        )
     }
 
 
