@@ -91,7 +91,6 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
             total += totalIndividual
         }
 
-
         txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
         return total
     }

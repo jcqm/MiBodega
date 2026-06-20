@@ -78,7 +78,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     """.trimIndent()
         db.execSQL(crearVenta)
 
-        // Tabla detalle venta - Quiero unificar ambos, no veo la necesidad de tener detalle venta, solo sera venta
+        // Tabla detalle venta -
 //        val crearDetalleVenta = """
 //        CREATE TABLE $Tabla_detalleVenta (
 //            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -528,8 +528,13 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     ) {
         writableDatabase.use { db ->
 
+            val tiendaID: String = obtenerDeBD(
+                Tabla_tienda,
+                Tabla_TiendaID,
+            )
             val valoresVenta = ContentValues().apply {
                 put(Tabla_ProductoID, productoID)
+                put(Tabla_TiendaID, tiendaID)
                 put(Tabla_FechaVenta, fechaVenta)
                 put(Tabla_PrecioUnitario, precioUnitario)
                 put(Tabla_TotalVenta, totalVenta)
