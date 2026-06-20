@@ -65,33 +65,26 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             $Tabla_TiendaID INTEGER NOT NULL,
             $Tabla_FechaVenta TEXT NOT NULL,
             $Tabla_TotalVenta REAL NOT NULL,
-            
-            
-            $Tabla_ProductoID INTEGER NOT NULL,
-            $Tabla_PrecioUnitario REAL NOT NULL,
-
-            
-            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID),
-            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
-
+            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
         )
     """.trimIndent()
         db.execSQL(crearVenta)
 
         // Tabla detalle venta -
-//        val crearDetalleVenta = """
-//        CREATE TABLE $Tabla_detalleVenta (
-//            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
-//            $Tabla_VentaID INTEGER NOT NULL,
-//            $Tabla_ProductoID INTEGER NOT NULL,
-//            $Tabla_CantidadDetalleVenta INTEGER NOT NULL,
-//            $Tabla_PrecioUnitario REAL NOT NULL,
-//            $Tabla_Subtotal REAL NOT NULL,
-//            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID),
-//            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
-//        )
-//    """.trimIndent()
-//        db.execSQL(crearDetalleVenta)
+        val crearDetalleVenta = """
+        CREATE TABLE $Tabla_detalleVenta (
+            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
+            $Tabla_VentaID INTEGER NOT NULL,
+            $Tabla_ProductoID INTEGER NOT NULL,
+            
+            $Tabla_PrecioUnitario REAL NOT NULL,
+            
+            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID),
+            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
+
+        )
+    """.trimIndent()
+        db.execSQL(crearDetalleVenta)
 
         // Tabla fiado
         val crearFiado = """
@@ -107,7 +100,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-//        db.execSQL("DROP TABLE IF EXISTS $Tabla_detalleVenta")
+        db.execSQL("DROP TABLE IF EXISTS $Tabla_detalleVenta")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_fiado")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_venta")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_producto")
@@ -519,11 +512,12 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     ///// VENTAS /////////
 
     //INSERTAR Venta//////
-    fun insertarVenta(
-        productoID: Int,
+
+    fun insertarVentaDetalle(
         fechaVenta: String,
-        precioUnitario: Float,
-        totalVenta: Float
+        totalVenta: Float,
+        productoID: Int,
+        precioUnitario: Float
 
     ) {
         writableDatabase.use { db ->
@@ -532,24 +526,69 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 Tabla_tienda,
                 Tabla_TiendaID,
             )
-            val valoresVenta = ContentValues().apply {
-                put(Tabla_ProductoID, productoID)
+            val venta = ContentValues().apply {
                 put(Tabla_TiendaID, tiendaID)
                 put(Tabla_FechaVenta, fechaVenta)
-                put(Tabla_PrecioUnitario, precioUnitario)
                 put(Tabla_TotalVenta, totalVenta)
             }
 
-            db.insert(Tabla_venta, null, valoresVenta)
+            val ventaId = db.insert(Tabla_venta, null, venta)
+
+            val detalleVenta = ContentValues().apply {
+                put(Tabla_VentaID, ventaId)
+                put(Tabla_ProductoID, productoID)
+                put(Tabla_PrecioUnitario, precioUnitario)
+            }
+
+            db.insert(Tabla_detalleVenta, null, detalleVenta)
         }
     }
+
+//    fun insertarVenta(
+//        fechaVenta: String,
+//        totalVenta: Float
+//
+//    ) {
+//        writableDatabase.use { db ->
+//
+//            val tiendaID: String = obtenerDeBD(
+//                Tabla_tienda,
+//                Tabla_TiendaID,
+//            )
+//            val venta = ContentValues().apply {
+//                put(Tabla_TiendaID, tiendaID)
+//                put(Tabla_FechaVenta, fechaVenta)
+//                put(Tabla_TotalVenta, totalVenta)
+//            }
+//
+//
+//            db.insert(Tabla_venta, null, venta)
+//        }
+//    }
+//
+//    fun insertarDetalleVenta(
+//        productoID: Int,
+//        precioUnitario: Float,
+//    ) {
+//        writableDatabase.use { db ->
+//
+//
+//            val detalleVenta = ContentValues().apply {
+//                put(Tabla_VentaID)
+//                put(Tabla_ProductoID, productoID)
+//                put(Tabla_PrecioUnitario, precioUnitario)
+//            }
+//
+//            db.insert(Tabla_detalleVenta, null, detalleVenta)
+//        }
+//    }
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 6
+        private const val DATABASE_VERSION = 7
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"

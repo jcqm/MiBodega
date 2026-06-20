@@ -54,22 +54,26 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
 
         btnListo.setOnClickListener {
             for (producto in listaProductos) {
-                inputProductoID = producto.IdProducto
-                inputPrecioUnitario = producto.cantidadSeleccionada * producto.PrecioProducto
+                if (producto.cantidadSeleccionada > 0) {
+                    inputProductoID = producto.IdProducto
+                    inputPrecioUnitario = producto.cantidadSeleccionada * producto.PrecioProducto
+                }
                 inputPrecioTotal = calcularResultado()
             }
 
             val inputFecha = fechaActual().toString()
 
-            dbHelper.insertarVenta(
-                inputProductoID,
+            dbHelper.insertarVentaDetalle(
                 inputFecha,
-                inputPrecioUnitario,
-                inputPrecioTotal
+                inputPrecioTotal,
+                inputProductoID,
+                inputPrecioUnitario
+
             )
             Toast.makeText(
                 this, "Venta agregada correctamente", Toast.LENGTH_SHORT
             ).show()
+
 
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
