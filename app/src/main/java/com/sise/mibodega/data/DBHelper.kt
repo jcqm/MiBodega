@@ -65,31 +65,38 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             $Tabla_TiendaID INTEGER NOT NULL,
             $Tabla_FechaVenta TEXT NOT NULL,
             $Tabla_TotalVenta REAL NOT NULL,
-            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID)
+            
+            
+            $Tabla_ProductoID INTEGER NOT NULL,
+            $Tabla_PrecioUnitario REAL NOT NULL,
+
+            
+            FOREIGN KEY($Tabla_TiendaID) REFERENCES $Tabla_tienda($Tabla_TiendaID),
+            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
+
         )
     """.trimIndent()
         db.execSQL(crearVenta)
 
-        // Tabla detalle venta
-        val crearDetalleVenta = """
-        CREATE TABLE $Tabla_detalleVenta (
-            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
-            $Tabla_VentaID INTEGER NOT NULL,
-            $Tabla_ProductoID INTEGER NOT NULL,
-            $Tabla_CantidadDetalleVenta INTEGER NOT NULL,
-            $Tabla_PrecioUnitario REAL NOT NULL,
-            $Tabla_Subtotal REAL NOT NULL,
-            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID),
-            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
-        )
-    """.trimIndent()
-        db.execSQL(crearDetalleVenta)
+        // Tabla detalle venta - Quiero unificar ambos, no veo la necesidad de tener detalle venta, solo sera venta
+//        val crearDetalleVenta = """
+//        CREATE TABLE $Tabla_detalleVenta (
+//            $Tabla_DetalleVentaID INTEGER PRIMARY KEY AUTOINCREMENT,
+//            $Tabla_VentaID INTEGER NOT NULL,
+//            $Tabla_ProductoID INTEGER NOT NULL,
+//            $Tabla_CantidadDetalleVenta INTEGER NOT NULL,
+//            $Tabla_PrecioUnitario REAL NOT NULL,
+//            $Tabla_Subtotal REAL NOT NULL,
+//            FOREIGN KEY($Tabla_VentaID) REFERENCES $Tabla_venta($Tabla_VentaID),
+//            FOREIGN KEY($Tabla_ProductoID) REFERENCES $Tabla_producto($Tabla_ProductoID)
+//        )
+//    """.trimIndent()
+//        db.execSQL(crearDetalleVenta)
 
         // Tabla fiado
         val crearFiado = """
         CREATE TABLE $Tabla_fiado (
             $Tabla_FiadoID INTEGER PRIMARY KEY AUTOINCREMENT,
-            
             $Tabla_NombreCliente TEXT NOT NULL,
             $Tabla_MontoDeuda REAL NOT NULL,
             $Tabla_EstadoFiado TEXT NOT NULL,
@@ -100,7 +107,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $Tabla_detalleVenta")
+//        db.execSQL("DROP TABLE IF EXISTS $Tabla_detalleVenta")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_fiado")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_venta")
         db.execSQL("DROP TABLE IF EXISTS $Tabla_producto")
@@ -511,12 +518,33 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     ///// VENTAS /////////
 
+    //INSERTAR Venta//////
+    fun insertarVenta(
+        productoID: Int,
+        fechaVenta: String,
+        precioUnitario: Float,
+        totalVenta: Float
+
+    ) {
+        writableDatabase.use { db ->
+
+            val valoresVenta = ContentValues().apply {
+                put(Tabla_ProductoID, productoID)
+                put(Tabla_FechaVenta, fechaVenta)
+                put(Tabla_PrecioUnitario, precioUnitario)
+                put(Tabla_TotalVenta, totalVenta)
+            }
+
+            db.insert(Tabla_venta, null, valoresVenta)
+        }
+    }
+
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 5
+        private const val DATABASE_VERSION = 6
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"
@@ -546,7 +574,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val Tabla_FechaVenta = "FechaVenta"
         const val Tabla_TotalVenta = "Total"
 
-        //tabla detalle Venta
+        //tabla detalle Venta - Haciendo cambios
         const val Tabla_detalleVenta = "detalle_venta"
         const val Tabla_DetalleVentaID = "DetalleVentaID"
         const val Tabla_CantidadDetalleVenta = "Cantidad"
