@@ -516,9 +516,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun insertarVentaDetalle(
         fechaVenta: String,
         totalVenta: Float,
-        productoID: Int,
-        precioUnitario: Float,
-        cantidad: Int
+        productosSeleccionados: List<Productos>
 
     ) {
         writableDatabase.use { db ->
@@ -535,15 +533,11 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
             val ventaId = db.insert(Tabla_venta, null, venta)
 
-            var nuevaCantidad = cantidad
-
-            while (nuevaCantidad > 0) {
-                nuevaCantidad -= 1
-
+            for (producto in productosSeleccionados) {
                 val detalleVenta = ContentValues().apply {
                     put(Tabla_VentaID, ventaId)
-                    put(Tabla_ProductoID, productoID)
-                    put(Tabla_PrecioUnitario, precioUnitario)
+                    put(Tabla_ProductoID, producto.IdProducto)
+                    put(Tabla_PrecioUnitario, producto.PrecioProducto)
                 }
                 db.insert(Tabla_detalleVenta, null, detalleVenta)
 

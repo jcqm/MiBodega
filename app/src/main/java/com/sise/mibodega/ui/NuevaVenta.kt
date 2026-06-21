@@ -49,41 +49,27 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
 
         listaProductos = productos
 
-        var inputProductoID = 0
-        var index = 0
-
-        var inputPrecioUnitario = 0.0f
-        var inputPrecioTotal = calcularResultado()
-
-        var cantidad = 0
-        val inputFecha = fechaActual().toString()
-
         btnListo.setOnClickListener {
-            for (producto in listaProductos) {
-                if (producto.cantidadSeleccionada > 0) {
-                    inputProductoID = producto.IdProducto
-                    inputPrecioUnitario = producto.cantidadSeleccionada * producto.PrecioProducto
-                    cantidad += producto.cantidadSeleccionada
-                }
+            val productosInsertar = listaProductos.filter { it.cantidadSeleccionada > 0 }
 
-                dbHelper.insertarVentaDetalle(
-                    inputFecha,
-                    inputPrecioTotal,
-                    inputProductoID,
-                    inputPrecioUnitario,
-                    cantidad
-                )
-
-
+            if (productosInsertar.isEmpty()) {
+                Toast.makeText(this, "Seleccione al menos un producto", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
-//            dbHelper.insertarVentaDetalle(
-//                inputFecha,
-//                inputPrecioTotal,
-//                inputProductoID,
-//                inputPrecioUnitario,
-//                cantidad
-//            )
+            val inputFecha = fechaActual().toString()
+            var inputPrecioTotal = calcularResultado()
+
+
+
+
+            dbHelper.insertarVentaDetalle(
+                inputFecha,
+                inputPrecioTotal,
+                productosInsertar,
+
+                )
+
 
             Toast.makeText(
                 this, "Venta agregada correctamente", Toast.LENGTH_SHORT
