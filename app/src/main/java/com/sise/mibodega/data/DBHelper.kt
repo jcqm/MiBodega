@@ -517,7 +517,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         fechaVenta: String,
         totalVenta: Float,
         productoID: Int,
-        precioUnitario: Float
+        precioUnitario: Float,
+        cantidad: Int
 
     ) {
         writableDatabase.use { db ->
@@ -534,13 +535,24 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
             val ventaId = db.insert(Tabla_venta, null, venta)
 
-            val detalleVenta = ContentValues().apply {
-                put(Tabla_VentaID, ventaId)
-                put(Tabla_ProductoID, productoID)
-                put(Tabla_PrecioUnitario, precioUnitario)
+            var nuevaCantidad = cantidad
+            while (nuevaCantidad > 0) {
+                nuevaCantidad -= 1
+                val detalleVenta = ContentValues().apply {
+                    put(Tabla_VentaID, ventaId)
+                    put(Tabla_ProductoID, productoID)
+                    put(Tabla_PrecioUnitario, precioUnitario)
+                }
+                db.insert(Tabla_detalleVenta, null, detalleVenta)
             }
 
-            db.insert(Tabla_detalleVenta, null, detalleVenta)
+//            val detalleVenta = ContentValues().apply {
+//                put(Tabla_VentaID, ventaId)
+//                put(Tabla_ProductoID, productoID)
+//                put(Tabla_PrecioUnitario, precioUnitario)
+//            }
+//
+//            db.insert(Tabla_detalleVenta, null, detalleVenta)
         }
     }
 

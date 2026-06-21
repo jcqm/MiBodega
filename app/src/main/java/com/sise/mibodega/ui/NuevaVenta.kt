@@ -52,11 +52,15 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         var inputPrecioUnitario = 0.0f
         var inputPrecioTotal = 0.0f
 
+
+        var cantidad = 0
+
         btnListo.setOnClickListener {
             for (producto in listaProductos) {
                 if (producto.cantidadSeleccionada > 0) {
                     inputProductoID = producto.IdProducto
                     inputPrecioUnitario = producto.cantidadSeleccionada * producto.PrecioProducto
+                    cantidad += producto.cantidadSeleccionada
                 }
                 inputPrecioTotal = calcularResultado()
             }
@@ -67,8 +71,8 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
                 inputFecha,
                 inputPrecioTotal,
                 inputProductoID,
-                inputPrecioUnitario
-
+                inputPrecioUnitario,
+                cantidad
             )
             Toast.makeText(
                 this, "Venta agregada correctamente", Toast.LENGTH_SHORT
