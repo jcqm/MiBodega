@@ -536,6 +536,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             val ventaId = db.insert(Tabla_venta, null, venta)
 
             var nuevaCantidad = cantidad
+
             while (nuevaCantidad > 0) {
                 nuevaCantidad -= 1
                 val detalleVenta = ContentValues().apply {
@@ -543,64 +544,19 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     put(Tabla_ProductoID, productoID)
                     put(Tabla_PrecioUnitario, precioUnitario)
                 }
-                db.insert(Tabla_detalleVenta, null, detalleVenta)
-            }
 
-//            val detalleVenta = ContentValues().apply {
-//                put(Tabla_VentaID, ventaId)
-//                put(Tabla_ProductoID, productoID)
-//                put(Tabla_PrecioUnitario, precioUnitario)
-//            }
-//
-//            db.insert(Tabla_detalleVenta, null, detalleVenta)
+                db.insert(Tabla_detalleVenta, null, detalleVenta)
+
+            }
         }
     }
-
-//    fun insertarVenta(
-//        fechaVenta: String,
-//        totalVenta: Float
-//
-//    ) {
-//        writableDatabase.use { db ->
-//
-//            val tiendaID: String = obtenerDeBD(
-//                Tabla_tienda,
-//                Tabla_TiendaID,
-//            )
-//            val venta = ContentValues().apply {
-//                put(Tabla_TiendaID, tiendaID)
-//                put(Tabla_FechaVenta, fechaVenta)
-//                put(Tabla_TotalVenta, totalVenta)
-//            }
-//
-//
-//            db.insert(Tabla_venta, null, venta)
-//        }
-//    }
-//
-//    fun insertarDetalleVenta(
-//        productoID: Int,
-//        precioUnitario: Float,
-//    ) {
-//        writableDatabase.use { db ->
-//
-//
-//            val detalleVenta = ContentValues().apply {
-//                put(Tabla_VentaID)
-//                put(Tabla_ProductoID, productoID)
-//                put(Tabla_PrecioUnitario, precioUnitario)
-//            }
-//
-//            db.insert(Tabla_detalleVenta, null, detalleVenta)
-//        }
-//    }
 
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
         //nombre y version de la base de datos
         private const val DATABASE_NAME = "MiBodega"
-        private const val DATABASE_VERSION = 7
+        private const val DATABASE_VERSION = 8
 
         //Tabla usuario
         const val Tabla_usuario = "usuario"
