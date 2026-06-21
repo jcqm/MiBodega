@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.processing.SurfaceProcessorNode
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,9 +50,10 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         listaProductos = productos
 
         var inputProductoID = 0
-        var inputPrecioUnitario = 0.0f
-        var inputPrecioTotal = 0.0f
+        var index = 0
 
+        var inputPrecioUnitario = 0.0f
+        var inputPrecioTotal = calcularResultado()
 
         var cantidad = 0
         val inputFecha = fechaActual().toString()
@@ -63,7 +65,7 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
                     inputPrecioUnitario = producto.cantidadSeleccionada * producto.PrecioProducto
                     cantidad += producto.cantidadSeleccionada
                 }
-                inputPrecioTotal = calcularResultado()
+
                 dbHelper.insertarVentaDetalle(
                     inputFecha,
                     inputPrecioTotal,
@@ -72,8 +74,8 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
                     cantidad
                 )
 
-            }
 
+            }
 
 //            dbHelper.insertarVentaDetalle(
 //                inputFecha,
@@ -82,13 +84,13 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
 //                inputPrecioUnitario,
 //                cantidad
 //            )
+
             Toast.makeText(
                 this, "Venta agregada correctamente", Toast.LENGTH_SHORT
             ).show()
 
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
-
         }
 
     }
@@ -109,6 +111,7 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         txtTotalNuevaVenta.text = "Total: S./ " + total.toString()
         return total
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fechaActual(): LocalDate? {

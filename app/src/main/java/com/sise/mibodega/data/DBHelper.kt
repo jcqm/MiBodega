@@ -539,18 +539,17 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
             while (nuevaCantidad > 0) {
                 nuevaCantidad -= 1
+
                 val detalleVenta = ContentValues().apply {
                     put(Tabla_VentaID, ventaId)
                     put(Tabla_ProductoID, productoID)
                     put(Tabla_PrecioUnitario, precioUnitario)
                 }
-
                 db.insert(Tabla_detalleVenta, null, detalleVenta)
 
             }
         }
     }
-
 
     //Declarando constantes y variables para crear la base de datos y sus tablas
     companion object {
