@@ -35,8 +35,6 @@
 
 
     <LinearLayout
-
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="24dp"
@@ -50,7 +48,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-
         <Button
             android:layout_marginTop="20dp"
             android:id="@+id/btnFotoProducto"
@@ -61,15 +58,6 @@
             app:iconGravity="textStart"
             app:iconSize="50dp" />
 
-
-        <!--        <Button-->
-        <!--            android:id="@+id/EscanearCodigoBarras"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="120dp"-->
-        <!--            app:icon="@drawable/baseline_document_scanner_24"-->
-        <!--            app:iconGravity="textStart"-->
-        <!--            app:iconSize="50dp" />-->
-
         <EditText
             android:id="@+id/txtNombreProducto"
             android:layout_width="match_parent"
@@ -78,11 +66,32 @@
             android:hint="Nombre del producto"
             android:inputType="text" />
 
-        <Spinner
-            android:id="@+id/spCategoria"
+        <!-- Fila con Spinner de categorias y boton para gestionar categorias -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:ems="10" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Spinner que ahora carga las categorias desde la base de datos -->
+            <Spinner
+                android:id="@+id/spCategoria"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10" />
+
+            <!-- NUEVO: Boton pequeño para ir a gestionar (agregar/editar/eliminar) categorias -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGestionarCategorias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Gestionar"
+                android:textSize="11sp"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,8 +125,6 @@
             android:layout_marginBottom="10dp"
             android:textSize="25dp" />
 
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

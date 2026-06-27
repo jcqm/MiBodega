@@ -8,16 +8,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.processing.SurfaceProcessorNode
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps3d.model.popoverStyle
 import com.sise.mibodega.R
 import com.sise.mibodega.data.DBHelper
-import org.w3c.dom.Text
-import com.sise.mibodega.ui.ListarNuevaVentaAdapter
 import java.time.LocalDate
 
 class NuevaVenta : AppCompatActivity(), OnItemClickListener {
@@ -32,13 +26,10 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nueva_venta)
 
-
-
         dbHelper = DBHelper(this, null)
-        btnListo = findViewById<Button>(R.id.btnListo)
-        txtTotalNuevaVenta = findViewById<TextView>(R.id.txtTotalNuevaVenta)
+        btnListo = findViewById(R.id.btnListo)
+        txtTotalNuevaVenta = findViewById(R.id.txtTotalNuevaVenta)
 
-        ////////////// LISTAR ////////////////////////////////////
         val productos = ArrayList<DBHelper.Productos>()
         productos.addAll(dbHelper.ListarStock())
         val recyclerView: RecyclerView = findViewById(R.id.listaResultado)
@@ -50,6 +41,7 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         listaProductos = productos
 
         btnListo.setOnClickListener {
+            // CORRECCIÓN: Filtramos solo productos con cantidad > 0
             val productosInsertar = listaProductos.filter { it.cantidadSeleccionada > 0 }
 
             if (productosInsertar.isEmpty()) {
@@ -58,34 +50,38 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
             }
 
             val inputFecha = fechaActual().toString()
-            var inputPrecioTotal = calcularResultado()
+            val inputPrecioTotal = calcularResultado()
 
-
-
-
+            // Insertar la venta en la base de datos
             dbHelper.insertarVentaDetalle(
                 inputFecha,
                 inputPrecioTotal,
-                productosInsertar,
+                productosInsertar
+            )
 
-                )
+            // CORRECCIÓN: Resetear cantidades para evitar doble registro
+            // si el usuario vuelve atrás con el botón del sistema
+            for (producto in listaProductos) {
+                producto.cantidadSeleccionada = 0
+            }
+            txtTotalNuevaVenta.text = "Total: S./ 0.0"
 
+            Toast.makeText(this, "Venta agregada correctamente", Toast.LENGTH_SHORT).show()
 
-            Toast.makeText(
-                this, "Venta agregada correctamente", Toast.LENGTH_SHORT
-            ).show()
-
+            // CORRECCIÓN: Usar finish() + startActivity con FLAG_ACTIVITY_CLEAR_TOP
+            // para limpiar el back stack y evitar que el usuario vuelva atrás
+            // y registre la misma venta dos veces
             val intent = Intent(this, DashboardActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
+            finish()
         }
-
     }
 
     override fun onButtonClick(position: Int, esIncremento: Boolean) {
         calcularResultado()
     }
 
-    //Lo use para calcular el resultado de cantidad por precio, luego se lo pase al onButtonClick
     fun calcularResultado(): Float {
         var total = 0.0f
 
@@ -98,14 +94,8 @@ class NuevaVenta : AppCompatActivity(), OnItemClickListener {
         return total
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun fechaActual(): LocalDate? {
-        // Sacar fecha actual
-        val fecha = LocalDate.now()
-
-        return fecha
+    fun fechaActual(): LocalDate {
+        return LocalDate.now()
     }
-
-
 }

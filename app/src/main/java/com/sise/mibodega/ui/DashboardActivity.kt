@@ -1,13 +1,10 @@
 package com.sise.mibodega.ui
 
-import  com.sise.mibodega.data.DBHelper
+import com.sise.mibodega.data.DBHelper
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import com.sise.mibodega.R
 import com.sise.mibodega.databinding.ActivityDashboardBinding
 import com.sise.mibodega.ui.dashboard_fragments.Fiado
@@ -15,13 +12,10 @@ import com.sise.mibodega.ui.dashboard_fragments.Home
 import com.sise.mibodega.ui.dashboard_fragments.Reportes
 import com.sise.mibodega.ui.dashboard_fragments.Stock
 import com.sise.mibodega.ui.dashboard_fragments.Ventas
-import androidx.fragment.app.Fragment
 
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashboardBinding
-    private lateinit var tvNombre: TextView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +34,7 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.fiados -> remplazarFragmento(Fiado())
                 R.id.reportes -> remplazarFragmento(Reportes())
 
-                else -> {
-                }
+                else -> {}
             }
             true
         }
@@ -54,8 +47,14 @@ class DashboardActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
+    }
 
-
+    // NUEVO: Funcion publica que permite que otros fragments cambien el tab activo
+    // del menu inferior y muestren otro fragment. Por ejemplo, desde el Home,
+    // al tocar "+ Nuevo producto" se llama navegarA(R.id.stock) y la app
+    // se mueve al tab de Stock automaticamente, igual que si el usuario lo tocara en el menu.
+    fun navegarA(itemId: Int) {
+        binding.bottomNavigationView.selectedItemId = itemId
     }
 
 }

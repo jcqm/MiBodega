@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.listitem.ListItemCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tvFechaAgrupada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024-01-01"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/tvCantidadVentasDia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 ventas"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_below="@id/tvFechaAgrupada"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvTotalDia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S/ 0.00"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#2196F3"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+</com.google.android.material.listitem.ListItemCardView>

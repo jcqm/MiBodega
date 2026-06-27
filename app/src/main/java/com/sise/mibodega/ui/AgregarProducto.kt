@@ -1,35 +1,23 @@
 package com.sise.mibodega.ui
 
-import android.content.ActivityNotFoundException
+import android.Manifest
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.sise.mibodega.R
-import com.sise.mibodega.data.DBHelper
-import androidx.core.net.toUri
-import java.io.File
-import android.Manifest
-import android.content.ContentValues
-import android.content.pm.PackageManager
-import android.os.Build
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.camera.view.PreviewView
-import com.sise.mibodega.ui.dashboard_fragments.Stock
+import com.sise.mibodega.R
+import com.sise.mibodega.data.DBHelper
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +31,9 @@ class AgregarProducto : AppCompatActivity() {
 
     private lateinit var btnTomarFoto: Button
     private lateinit var previewView: PreviewView
+
+    // NUEVO: Boton para ir a gestionar categorias desde esta pantalla
+    private lateinit var btnGestionarCategorias: Button
 
     //CameraX
     private var rutaFoto: String = ""
@@ -63,26 +54,14 @@ class AgregarProducto : AppCompatActivity() {
         //FOTO
         btnTomarFoto = findViewById(R.id.btnFotoProducto)
         previewView = findViewById(R.id.previewView)
+        // NUEVO: boton de gestionar categorias
+        btnGestionarCategorias = findViewById(R.id.btnGestionarCategorias)
 
-        ///////////////////////////Spinner de por mientras//////////////////////////////////////
-        val Categoria = arrayOf(
-            "Bebidas",
-            "Abarrotes",
-            "Básicos",
-            "Lácteos",
-            "Limpieza del Hogar",
-            "Higiene y Cuidado Personal"
-        )
-        val adapterCategoria = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            Categoria
-        )
-        adapterCategoria.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-        spCategoria.adapter = adapterCategoria
-
+        ///////////////////////////Spinner de categorias//////////////////////////////////////
+        // CAMBIO: Antes las categorias eran una lista fija en el codigo.
+        // Ahora se cargan desde la base de datos para que el usuario pueda
+        // agregar las suyas propias desde la pantalla de Gestion de Categorias
+        cargarCategoriasEnSpinner(db)
 
         ///////////////////////////FOTO//////////////////////////////////////
 
@@ -98,6 +77,12 @@ class AgregarProducto : AppCompatActivity() {
 
         //////////////////////////////////////////////////////////////////////
 
+        // NUEVO: Al tocar "Gestionar Categorias" abre la pantalla de CRUD de categorias
+        // Cuando regrese, recarga el spinner para mostrar los cambios
+        btnGestionarCategorias.setOnClickListener {
+            val intent = Intent(this, GestionCategoriasActivity::class.java)
+            startActivity(intent)
+        }
 
         /////////////////////////////////////////////////////////////////
 
@@ -124,23 +109,43 @@ class AgregarProducto : AppCompatActivity() {
                     inputPrecioVenta,
                     inputStockinicial,
                     rutaFoto
-
-
                 )
                 Toast.makeText(
                     this,
-                    "Producto $inputNombreProducto correctamente",
+                    "Producto $inputNombreProducto guardado correctamente",
                     Toast.LENGTH_SHORT
                 ).show()
 
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
-
-
             }
         }
+    }
 
+    // NUEVO: Funcion que carga las categorias desde la base de datos y las pone en el Spinner
+    // Se llama al abrir la pantalla y al volver de Gestion de Categorias
+    private fun cargarCategoriasEnSpinner(db: DBHelper) {
+        val nombresCategoria = db.listarNombresCategorias()
 
+        // Si no hay categorias en la BD, ponemos un aviso en el spinner
+        if (nombresCategoria.isEmpty()) {
+            nombresCategoria.add("Sin categorías - Agrega una")
+        }
+
+        val adapterCategoria = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            nombresCategoria
+        )
+        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spCategoria.adapter = adapterCategoria
+    }
+
+    // Al volver de GestionCategoriasActivity, recargamos el spinner con las categorias actualizadas
+    override fun onResume() {
+        super.onResume()
+        val db = DBHelper(this, null)
+        cargarCategoriasEnSpinner(db)
     }
 
     //FUNCIONES PARA LA CAMARA
@@ -176,41 +181,26 @@ class AgregarProducto : AppCompatActivity() {
     private fun captureImage() {
         val imageCapture = imageCapture ?: return
 
-
-        val timestamp = SimpleDateFormat(
-            "yyyyMMdd_HHmmss",
-            Locale.US
-        ).format(Date())
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
 
         // Carpeta FotosProductos dentro de la app
-        val directorio = File(
-            getExternalFilesDir(null),
-            "FotosProductos"
-        )
+        val directorio = File(getExternalFilesDir(null), "FotosProductos")
 
         if (!directorio.exists()) {
             directorio.mkdirs()
         }
 
-        val archivoFoto = File(
-            directorio,
-            "IMG_$timestamp.jpg"
-        )
+        val archivoFoto = File(directorio, "IMG_$timestamp.jpg")
 
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(
-            archivoFoto
-        ).build()
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(archivoFoto).build()
 
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
 
-                override fun onImageSaved(
-                    outputFileResults: ImageCapture.OutputFileResults
-                ) {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     rutaFoto = archivoFoto.absolutePath
-
                     Toast.makeText(
                         this@AgregarProducto,
                         "\n${archivoFoto.absolutePath}",
@@ -218,9 +208,7 @@ class AgregarProducto : AppCompatActivity() {
                     ).show()
                 }
 
-                override fun onError(
-                    exception: ImageCaptureException
-                ) {
+                override fun onError(exception: ImageCaptureException) {
                     Toast.makeText(
                         this@AgregarProducto,
                         "Error al guardar imagen",
@@ -229,11 +217,9 @@ class AgregarProducto : AppCompatActivity() {
                 }
             }
         )
-
-
     }
 
-    // Revisa si todos los permison son dados
+    // Revisa si todos los permisos son dados
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
@@ -256,31 +242,7 @@ class AgregarProducto : AppCompatActivity() {
     }
 
     companion object {
-//        private const val REQUEST_CODE_PERMISSIONS = 10
         public const val REQUEST_CODE_PERMISSIONS = 10
-
-
-//        private val REQUIRED_PERMISSIONS =
-//            mutableListOf(
-//                Manifest.permission.CAMERA
-//            ).toTypedArray()
-
-        public val REQUIRED_PERMISSIONS =
-            mutableListOf(
-                Manifest.permission.CAMERA
-            ).toTypedArray()
+        public val REQUIRED_PERMISSIONS = mutableListOf(Manifest.permission.CAMERA).toTypedArray()
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

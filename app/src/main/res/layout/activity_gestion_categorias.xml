@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Titulo de la pantalla -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:text="Gestionar Categorías"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Campo para escribir la nueva categoria -->
+    <EditText
+        android:id="@+id/txtNuevaCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de la nueva categoría"
+        android:inputType="text"
+        android:padding="12dp" />
+
+    <!-- Boton para agregar la categoria escrita arriba -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgregarCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="+ Agregar categoría"
+        app:cornerRadius="12dp" />
+
+    <!-- Separador visual -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Texto indicador de la lista -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Toca una categoría para editar o eliminar:"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Lista de categorias existentes -->
+    <ListView
+        android:id="@+id/listaCategorias"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="1dp" />
+
+</LinearLayout>

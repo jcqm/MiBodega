@@ -49,6 +49,11 @@
             </intent-filter>
         </activity>
 
+        <!--  Pantalla para gestionar categorias de productos -->
+        <activity
+            android:name=".ui.GestionCategoriasActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
